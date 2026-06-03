@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, CheckCircle, XCircle, ClipboardList, Package, FileText, AlertTriangle, Send, Mic, Square } from 'lucide-react'
-import { WORK_ORDERS, ADMIN } from '../../data'
+import { getWO, ADMIN } from '../../data'
 
 export default function Notes({ woId, onBack, onComplete }) {
-  const wo = WORK_ORDERS[woId]
+  const wo = getWO(woId)
 
   const [faultConfirmed,    setFaultConfirmed]    = useState(true)
   const [partsUsed,         setPartsUsed]         = useState(wo?.parts ?? '')

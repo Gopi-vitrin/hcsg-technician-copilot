@@ -1,13 +1,13 @@
-import { ArrowLeft, MapPin, Clock, Zap, ChevronRight, AlertTriangle } from 'lucide-react'
-import { WORK_ORDERS } from '../../data'
+import { ArrowLeft, MapPin, Clock, Zap, ChevronRight, AlertTriangle, ClipboardList, MessageSquare } from 'lucide-react'
+import { getWO } from '../../data'
 
 const PRIORITY_STYLES = {
   High:   'bg-hcsg-dark-red text-white',
   Medium: 'bg-hcsg-amber text-hcsg-navy',
 }
 
-export default function WorkOrderDetail({ woId, onBack, onGetDiagnosis, onViewHistory }) {
-  const wo = WORK_ORDERS[woId]
+export default function WorkOrderDetail({ woId, onBack, onGetDiagnosis, onViewHistory, onRecordFindings, onAskQuestion }) {
+  const wo = getWO(woId)
   if (!wo) return null
 
   return (
@@ -88,21 +88,55 @@ export default function WorkOrderDetail({ woId, onBack, onGetDiagnosis, onViewHi
 
       {/* Sticky CTA */}
       <div className="px-4 pb-6 pt-3 border-t border-white/10 space-y-3">
-        <button
-          onClick={onGetDiagnosis}
-          className="w-full flex items-center justify-center gap-3 bg-hcsg-orange hover:bg-hcsg-light-orange active:scale-[0.98] text-white font-bold text-base py-4 rounded-2xl transition-all duration-150 shadow-lg shadow-hcsg-orange/25"
-        >
-          <Zap size={20} fill="currentColor" />
-          Get AI Diagnosis
-        </button>
 
-        <button
-          onClick={onViewHistory}
-          className="w-full flex items-center justify-center gap-2 text-white/50 text-sm py-2 active:text-white/70 transition-colors"
-        >
-          View Equipment History
-          <ChevronRight size={15} />
-        </button>
+        {wo.aiReady ? (
+          /* AI-supported WO — full diagnosis flow */
+          <>
+            <button
+              onClick={onGetDiagnosis}
+              className="w-full flex items-center justify-center gap-3 bg-hcsg-orange hover:bg-hcsg-light-orange active:scale-[0.98] text-white font-bold text-base py-4 rounded-2xl transition-all duration-150 shadow-lg shadow-hcsg-orange/25"
+            >
+              <Zap size={20} fill="currentColor" />
+              Get AI Diagnosis
+            </button>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onViewHistory}
+                className="flex-1 flex items-center justify-center gap-1.5 text-white/40 text-sm py-2 active:text-white/60 transition-colors"
+              >
+                Equipment History <ChevronRight size={14} />
+              </button>
+              <div className="w-px h-4 bg-white/10" />
+              <button
+                onClick={onRecordFindings}
+                className="flex-1 flex items-center justify-center gap-1.5 text-white/40 text-sm py-2 active:text-white/60 transition-colors"
+              >
+                Skip AI <ChevronRight size={14} />
+              </button>
+            </div>
+          </>
+        ) : (
+          /* Manually-created WO — direct path */
+          <>
+            <button
+              onClick={onRecordFindings}
+              className="w-full flex items-center justify-center gap-3 bg-hcsg-orange hover:bg-hcsg-light-orange active:scale-[0.98] text-white font-bold text-base py-4 rounded-2xl transition-all duration-150 shadow-lg shadow-hcsg-orange/25"
+            >
+              <ClipboardList size={20} />
+              Record Findings
+            </button>
+
+            <button
+              onClick={onAskQuestion}
+              className="w-full flex items-center justify-center gap-2 text-white/45 text-sm py-2 active:text-white/70 transition-colors"
+            >
+              <MessageSquare size={14} />
+              Ask AI Assistant
+            </button>
+          </>
+        )}
+
       </div>
 
     </div>

@@ -1,8 +1,8 @@
 import { CheckCircle, ArrowRight, Zap, Send, FileCheck } from 'lucide-react'
-import { WORK_ORDERS, ADMIN } from '../../data'
+import { getWO, ADMIN } from '../../data'
 
 export default function Completion({ woId, findings, finalConfidence, onReturn }) {
-  const wo = WORK_ORDERS[woId]
+  const wo = getWO(woId)
   if (!wo) return null
 
   const topPrediction  = wo.predictions[0]

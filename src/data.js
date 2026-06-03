@@ -1,3 +1,8 @@
+// ── Dynamic WO registry — holds locally-created work orders ───────────────
+const _dynamic = {}
+export function registerWO(wo) { _dynamic[wo.id] = wo }
+export function getWO(id)      { return WORK_ORDERS[id] ?? _dynamic[id] ?? null }
+
 export const TECHNICIAN = {
   name: 'Jake Thibodaux',
   role: 'Field Technician — Fast Track',

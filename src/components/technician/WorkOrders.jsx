@@ -1,4 +1,4 @@
-import { Zap, MapPin, Clock, ChevronRight, Search, MessageSquare, User, Briefcase } from 'lucide-react'
+import { Zap, MapPin, Clock, ChevronRight, Search, MessageSquare, User, Briefcase, Plus } from 'lucide-react'
 import { TECHNICIAN, WORK_ORDERS } from '../../data'
 
 const STATUS_STYLES = {
@@ -78,8 +78,8 @@ function WorkOrderCard({ wo, onTap, isHero }) {
   )
 }
 
-export default function WorkOrders({ onSelectWO, onNavigate, activeTab = 'jobs' }) {
-  const orders = TECHNICIAN.workOrders.map(id => WORK_ORDERS[id])
+export default function WorkOrders({ onSelectWO, onNavigate, onNewWO, localWOs = [], activeTab = 'jobs' }) {
+  const dispatched = TECHNICIAN.workOrders.map(id => WORK_ORDERS[id])
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
 
   return (
@@ -92,8 +92,14 @@ export default function WorkOrders({ onSelectWO, onNavigate, activeTab = 'jobs' 
           alt="HCSG"
           className="h-6 brightness-0 invert"
         />
-        <div className="flex items-center gap-2">
-          <span className="text-white/60 text-sm">{TECHNICIAN.name.split(' ')[0]}</span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onNewWO}
+            className="flex items-center gap-1.5 bg-hcsg-orange/15 border border-hcsg-orange/30 text-hcsg-orange text-xs font-semibold px-3 py-1.5 rounded-full active:bg-hcsg-orange/25 transition-colors"
+          >
+            <Plus size={13} />
+            New WO
+          </button>
           <div className="w-8 h-8 rounded-full bg-hcsg-orange flex items-center justify-center text-white text-xs font-bold">
             {TECHNICIAN.avatar}
           </div>
@@ -108,7 +114,7 @@ export default function WorkOrders({ onSelectWO, onNavigate, activeTab = 'jobs' 
 
       {/* Cards */}
       <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-3">
-        {orders.map((wo) => (
+        {dispatched.map((wo) => (
           <WorkOrderCard
             key={wo.id}
             wo={wo}
@@ -116,6 +122,16 @@ export default function WorkOrders({ onSelectWO, onNavigate, activeTab = 'jobs' 
             isHero={wo.id === 'WO-2847'}
           />
         ))}
+
+        {/* Locally created WOs */}
+        {localWOs.length > 0 && (
+          <>
+            <p className="text-white/25 text-xs uppercase tracking-widest pt-2 px-1">Added by you</p>
+            {localWOs.map((wo) => (
+              <WorkOrderCard key={wo.id} wo={wo} onTap={onSelectWO} isHero={false} />
+            ))}
+          </>
+        )}
       </div>
 
       {/* Bottom nav */}

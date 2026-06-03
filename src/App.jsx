@@ -14,6 +14,7 @@ import Search           from './components/technician/Search'
 import Chat             from './components/technician/Chat'
 import Profile          from './components/technician/Profile'
 import EquipmentHistory from './components/technician/EquipmentHistory'
+import NewWorkOrder     from './components/technician/NewWorkOrder'
 
 // Admin screens
 import AdminLogin           from './components/admin/AdminLogin'
@@ -26,6 +27,7 @@ import AdminTeam            from './components/admin/AdminTeam'
 
 // Shared
 import RoleSwitcher from './components/shared/RoleSwitcher'
+import { registerWO } from './data'
 
 // Nav helpers
 import { Briefcase, Search as SearchIcon, MessageSquare, User, Smartphone, Monitor } from 'lucide-react'
@@ -154,6 +156,7 @@ export default function App() {
   const [chatContext,     setChatContext]     = useState(null)
   const [finalConfidence, setFinalConfidence] = useState(null)
   const [switchingTo,     setSwitchingTo]     = useState(null) // 'admin' | 'technician'
+  const [localWOs,        setLocalWOs]        = useState([])
 
   // --- Technician navigation ---
   const goTech = (s) => setTechScreen(s)
@@ -169,6 +172,17 @@ export default function App() {
   function handleAskQuestion() {
     setChatContext(selectedWO)
     goTech('chat')
+  }
+
+  function handleCreateWO(wo) {
+    registerWO(wo)
+    setLocalWOs(prev => [...prev, wo])
+    setSelectedWO(wo.id)
+    goTech('wo-detail')
+  }
+
+  function handleRecordFindings() {
+    goTech('notes')
   }
 
   function handleRoleSwitch(newRole) {
@@ -190,7 +204,13 @@ export default function App() {
             <Login onLogin={() => goTech('work-orders')} />
           )}
           {techScreen === 'work-orders' && (
-            <WorkOrders onSelectWO={handleSelectWO} onNavigate={handleNavTab} activeTab="jobs" />
+            <WorkOrders
+              onSelectWO={handleSelectWO}
+              onNavigate={handleNavTab}
+              onNewWO={() => goTech('new-wo')}
+              localWOs={localWOs}
+              activeTab="jobs"
+            />
           )}
           {techScreen === 'search' && (
             <div className="flex flex-col h-full">
@@ -215,12 +235,20 @@ export default function App() {
               <BottomNav active="profile" onNavigate={handleNavTab} />
             </div>
           )}
+          {techScreen === 'new-wo' && (
+            <NewWorkOrder
+              onBack={() => goTech('work-orders')}
+              onCreate={handleCreateWO}
+            />
+          )}
           {techScreen === 'wo-detail' && (
             <WorkOrderDetail
               woId={selectedWO}
               onBack={() => goTech('work-orders')}
               onGetDiagnosis={() => goTech('ai-processing')}
               onViewHistory={() => goTech('equipment-history')}
+              onRecordFindings={handleRecordFindings}
+              onAskQuestion={handleAskQuestion}
             />
           )}
           {techScreen === 'equipment-history' && (
