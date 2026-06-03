@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Upload, FileText, CheckCircle, AlertTriangle, X, FolderOpen, Loader, Plus } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Upload, FileText, CheckCircle, AlertTriangle, X, FolderOpen, Loader, Plus, CloudUpload } from 'lucide-react'
 import { KNOWLEDGE_BASE } from '../../data'
 
 const SOURCE_STYLES = {
@@ -131,15 +131,251 @@ function SharePointModal({ onClose, onImport }) {
   )
 }
 
+const EQUIPMENT_TYPES = [
+  'Wire Rope Hoist',
+  'Chain Hoist',
+  'Bridge Crane',
+  'Overhead Crane',
+  'Industrial Elevators',
+  'Dock & Door Systems',
+  'Heavy Duty Hoist',
+  'Other',
+]
+
+const DOC_TYPES = ['Manual', 'Service Bulletin', 'Inspection Checklist', 'Parts Catalogue', 'Other']
+
+function UploadModal({ onClose, onUploaded }) {
+  const fileInputRef = useRef(null)
+  const [file,       setFile]       = useState(null)
+  const [equipment,  setEquipment]  = useState('')
+  const [docType,    setDocType]    = useState('Manual')
+  const [stage,      setStage]      = useState('select') // select | uploading | indexing | done
+  const [progress,   setProgress]   = useState(0)
+  const [dragOver,   setDragOver]   = useState(false)
+
+  function handleFile(f) {
+    if (f && f.type === 'application/pdf') setFile(f)
+  }
+
+  function handleDrop(e) {
+    e.preventDefault()
+    setDragOver(false)
+    handleFile(e.dataTransfer.files[0])
+  }
+
+  function runUpload() {
+    setStage('uploading')
+    setProgress(0)
+    // Simulate upload progress 0→100 over ~1.5s
+    let p = 0
+    const tick = setInterval(() => {
+      p += Math.random() * 18 + 8
+      if (p >= 100) {
+        p = 100
+        clearInterval(tick)
+        setProgress(100)
+        setTimeout(() => {
+          setStage('indexing')
+          setTimeout(() => {
+            setStage('done')
+            setTimeout(() => {
+              onUploaded({
+                name:      file.name.replace(/\.pdf$/i, ''),
+                type:      docType,
+                equipment,
+                pages:     Math.floor(Math.random() * 40) + 20,
+                status:    'Indexed',
+                uploaded:  TODAY,
+                source:    'Upload',
+              })
+            }, 700)
+          }, 1200)
+        }, 300)
+      } else {
+        setProgress(Math.round(p))
+      }
+    }, 120)
+  }
+
+  const canUpload = file && equipment
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-hcsg-orange flex items-center justify-center">
+              <Upload size={15} className="text-white" />
+            </div>
+            <div>
+              <p className="text-slate-800 font-semibold text-sm">Upload Manual</p>
+              <p className="text-slate-400 text-xs">PDF only · will be indexed automatically</p>
+            </div>
+          </div>
+          {stage === 'select' && (
+            <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
+              <X size={18} />
+            </button>
+          )}
+        </div>
+
+        <div className="px-6 py-5 space-y-4">
+
+          {/* Stage: select */}
+          {stage === 'select' && (
+            <>
+              {/* Drop zone */}
+              <div
+                onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+                onDragLeave={() => setDragOver(false)}
+                onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
+                className={`relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
+                  dragOver
+                    ? 'border-hcsg-orange bg-hcsg-orange/5'
+                    : file
+                    ? 'border-green-400 bg-green-50'
+                    : 'border-slate-200 hover:border-hcsg-orange/50 hover:bg-slate-50'
+                }`}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="application/pdf"
+                  className="hidden"
+                  onChange={e => handleFile(e.target.files?.[0])}
+                />
+                {file ? (
+                  <>
+                    <CheckCircle size={28} className="text-green-500 mx-auto mb-2" />
+                    <p className="text-slate-700 text-sm font-semibold truncate max-w-xs mx-auto">{file.name}</p>
+                    <p className="text-slate-400 text-xs mt-1">{(file.size / 1024 / 1024).toFixed(1)} MB · Click to change</p>
+                  </>
+                ) : (
+                  <>
+                    <CloudUpload size={28} className="text-slate-300 mx-auto mb-2" />
+                    <p className="text-slate-600 text-sm font-medium">Drop PDF here or <span className="text-hcsg-orange">browse files</span></p>
+                    <p className="text-slate-400 text-xs mt-1">PDF manuals, service bulletins, checklists</p>
+                  </>
+                )}
+              </div>
+
+              {/* Equipment type */}
+              <div>
+                <label className="text-slate-500 text-xs font-semibold uppercase tracking-wider block mb-1.5">Equipment Type</label>
+                <select
+                  value={equipment}
+                  onChange={e => setEquipment(e.target.value)}
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-slate-700 text-sm bg-white focus:outline-none focus:border-hcsg-orange"
+                >
+                  <option value="">Select equipment type...</option>
+                  {EQUIPMENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
+
+              {/* Document type */}
+              <div>
+                <label className="text-slate-500 text-xs font-semibold uppercase tracking-wider block mb-1.5">Document Type</label>
+                <div className="flex flex-wrap gap-2">
+                  {DOC_TYPES.map(t => (
+                    <button
+                      key={t}
+                      onClick={() => setDocType(t)}
+                      className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-all ${
+                        docType === t
+                          ? 'bg-hcsg-navy text-white border-hcsg-navy'
+                          : 'bg-white text-slate-500 border-slate-200 hover:border-slate-400'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Stage: uploading */}
+          {stage === 'uploading' && (
+            <div className="py-4 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-hcsg-orange/10 flex items-center justify-center shrink-0">
+                  <FileText size={18} className="text-hcsg-orange" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-slate-700 text-sm font-medium truncate">{file?.name}</p>
+                  <p className="text-slate-400 text-xs">Uploading...</p>
+                </div>
+                <span className="text-hcsg-orange text-sm font-bold shrink-0">{progress}%</span>
+              </div>
+              <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-hcsg-orange rounded-full transition-all duration-150"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Stage: indexing */}
+          {stage === 'indexing' && (
+            <div className="py-4 flex items-center gap-3">
+              <Loader size={20} className="text-hcsg-blue animate-spin shrink-0" />
+              <div>
+                <p className="text-slate-700 text-sm font-medium">Indexing document...</p>
+                <p className="text-slate-400 text-xs">Extracting text, building search index</p>
+              </div>
+            </div>
+          )}
+
+          {/* Stage: done */}
+          {stage === 'done' && (
+            <div className="py-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                <CheckCircle size={20} className="text-green-600" />
+              </div>
+              <div>
+                <p className="text-slate-700 text-sm font-semibold">Indexed successfully</p>
+                <p className="text-slate-400 text-xs">{file?.name} is ready for AI queries</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        {stage === 'select' && (
+          <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-end gap-2">
+            <button onClick={onClose} className="px-4 py-2 text-slate-500 text-sm hover:text-slate-700">Cancel</button>
+            <button
+              onClick={runUpload}
+              disabled={!canUpload}
+              className={`px-5 py-2 rounded-xl text-sm font-semibold transition-all ${
+                canUpload
+                  ? 'bg-hcsg-orange text-white hover:bg-hcsg-light-orange'
+                  : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+              }`}
+            >
+              Upload & Index
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 const TODAY = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 
 export default function DocumentManagement() {
-  const [showModal,     setShowModal]     = useState(false)
-  const [importedDocs,  setImportedDocs]  = useState([])
-  const [successBanner, setSuccessBanner] = useState(false)
+  const [showSharePoint, setShowSharePoint] = useState(false)
+  const [showUpload,     setShowUpload]     = useState(false)
+  const [importedDocs,   setImportedDocs]   = useState([])
+  const [successBanner,  setSuccessBanner]  = useState(null) // null | 'sharepoint' | 'upload'
 
   function handleImport(files) {
-    setShowModal(false)
+    setShowSharePoint(false)
     setImportedDocs(prev => [
       ...prev,
       ...files.map(f => ({
@@ -152,8 +388,15 @@ export default function DocumentManagement() {
         source:    f.source,
       }))
     ])
-    setSuccessBanner(true)
-    setTimeout(() => setSuccessBanner(false), 4000)
+    setSuccessBanner('sharepoint')
+    setTimeout(() => setSuccessBanner(null), 4000)
+  }
+
+  function handleUploaded(doc) {
+    setShowUpload(false)
+    setImportedDocs(prev => [...prev, doc])
+    setSuccessBanner('upload')
+    setTimeout(() => setSuccessBanner(null), 4000)
   }
 
   const allDocs   = [...KNOWLEDGE_BASE.documents, ...importedDocs]
@@ -162,7 +405,8 @@ export default function DocumentManagement() {
   return (
     <div className="p-8 max-w-5xl">
 
-      {showModal && <SharePointModal onClose={() => setShowModal(false)} onImport={handleImport} />}
+      {showSharePoint && <SharePointModal onClose={() => setShowSharePoint(false)} onImport={handleImport} />}
+      {showUpload    && <UploadModal    onClose={() => setShowUpload(false)}    onUploaded={handleUploaded} />}
 
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -174,7 +418,7 @@ export default function DocumentManagement() {
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => setShowSharePoint(true)}
             className="flex items-center gap-2 bg-white border border-slate-200 text-slate-700 text-sm font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 shadow-sm transition-colors"
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
@@ -184,7 +428,10 @@ export default function DocumentManagement() {
             </svg>
             Add from SharePoint
           </button>
-          <button className="flex items-center gap-2 bg-hcsg-orange text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:bg-hcsg-light-orange shadow-sm transition-colors">
+          <button
+            onClick={() => setShowUpload(true)}
+            className="flex items-center gap-2 bg-hcsg-orange text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:bg-hcsg-light-orange shadow-sm transition-colors"
+          >
             <Upload size={15} />
             Upload Manual
           </button>
@@ -195,7 +442,12 @@ export default function DocumentManagement() {
       {successBanner && (
         <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl px-5 py-3 mb-5 animate-fade-in">
           <CheckCircle size={16} className="text-green-600 shrink-0" />
-          <p className="text-green-700 text-sm font-medium">{importedDocs.length} document{importedDocs.length !== 1 ? 's' : ''} imported from SharePoint and indexed successfully.</p>
+          <p className="text-green-700 text-sm font-medium">
+            {successBanner === 'upload'
+              ? 'Manual uploaded and indexed successfully.'
+              : `${importedDocs.length} document${importedDocs.length !== 1 ? 's' : ''} imported from SharePoint and indexed successfully.`
+            }
+          </p>
         </div>
       )}
 
@@ -265,7 +517,7 @@ export default function DocumentManagement() {
                 {gap.priority}
               </span>
               <button
-                onClick={() => setShowModal(true)}
+                onClick={() => setShowUpload(true)}
                 className="flex items-center gap-1.5 text-hcsg-blue text-xs font-semibold hover:text-hcsg-navy transition-colors"
               >
                 <Plus size={13} /> Add docs
