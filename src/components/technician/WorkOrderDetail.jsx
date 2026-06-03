@@ -8,6 +8,7 @@ const PRIORITY_STYLES = {
 
 export default function WorkOrderDetail({ woId, onBack, onGetDiagnosis, onViewHistory }) {
   const wo = WORK_ORDERS[woId]
+  if (!wo) return null
 
   return (
     <div className="flex flex-col h-full bg-hcsg-navy">

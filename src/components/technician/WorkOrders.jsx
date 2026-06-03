@@ -88,7 +88,7 @@ export default function WorkOrders({ onSelectWO, onNavigate, activeTab = 'jobs' 
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 pt-4 pb-3">
         <img
-          src="https://www.hoistcrane.com/wp-content/uploads/2025/09/Hoist-and-Crane-Logo.svg"
+          src="/assets/hcsg-logo.svg"
           alt="HCSG"
           className="h-6 brightness-0 invert"
         />

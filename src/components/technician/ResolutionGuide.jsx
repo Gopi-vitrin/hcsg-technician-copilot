@@ -172,15 +172,11 @@ export default function ResolutionGuide({ woId, onBack, onComplete }) {
 
       </div>
 
-      {/* Sticky CTA */}
+      {/* Sticky CTA — always tappable */}
       <div className="px-4 pb-6 pt-3 border-t border-white/10">
         <button
           onClick={onComplete}
-          className={`w-full flex items-center justify-center gap-2 font-bold text-base py-4 rounded-2xl transition-all duration-300 ${
-            allDone
-              ? 'bg-hcsg-orange hover:bg-hcsg-light-orange text-white shadow-lg shadow-hcsg-orange/25 active:scale-[0.98]'
-              : 'bg-white/8 text-white/50 border border-white/10'
-          }`}
+          className="w-full flex items-center justify-center gap-2 font-bold text-base py-4 rounded-2xl transition-all duration-150 bg-hcsg-orange hover:bg-hcsg-light-orange text-white shadow-lg shadow-hcsg-orange/25 active:scale-[0.98]"
         >
           <ClipboardList size={18} />
           Record Findings

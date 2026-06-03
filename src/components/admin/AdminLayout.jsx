@@ -18,7 +18,7 @@ export default function AdminLayout({ active, onNavigate, children }) {
         {/* Logo */}
         <div className="px-5 pt-6 pb-5 border-b border-white/10">
           <img
-            src="https://www.hoistcrane.com/wp-content/uploads/2025/09/Hoist-and-Crane-Logo.svg"
+            src="/assets/hcsg-logo.svg"
             alt="HCSG"
             className="h-7 brightness-0 invert"
           />

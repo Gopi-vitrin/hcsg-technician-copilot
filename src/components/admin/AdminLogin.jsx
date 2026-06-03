@@ -16,7 +16,7 @@ export default function AdminLogin({ onLogin }) {
       {/* Background image */}
       <div className="absolute inset-0">
         <img
-          src="https://www.hoistcrane.com/wp-content/uploads/2025/05/HAC-Corporate-Projects-CTA-Image.webp"
+          src="/assets/corporate-projects.webp"
           alt=""
           className="w-full h-full object-cover opacity-15"
         />
@@ -28,7 +28,7 @@ export default function AdminLogin({ onLogin }) {
 
         <div className="flex flex-col items-center gap-6">
           <img
-            src="https://www.hoistcrane.com/wp-content/uploads/2025/09/Hoist-and-Crane-Logo.svg"
+            src="/assets/hcsg-logo.svg"
             alt="HCSG"
             className="h-10 brightness-0 invert"
           />

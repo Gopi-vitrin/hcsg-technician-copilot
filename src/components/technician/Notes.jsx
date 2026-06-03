@@ -6,7 +6,8 @@ export default function Notes({ woId, onBack, onComplete }) {
   const wo = WORK_ORDERS[woId]
 
   const [faultConfirmed, setFaultConfirmed] = useState(true)
-  const [partsUsed,      setPartsUsed]      = useState(wo.parts)
+  const [partsUsed,      setPartsUsed]      = useState(wo?.parts ?? '')
+  if (!wo) return null
   const [notes,          setNotes]          = useState('')
 
   function handleComplete() {

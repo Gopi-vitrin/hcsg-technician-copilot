@@ -16,7 +16,7 @@ export default function Login({ onLogin }) {
       {/* Background industrial photo */}
       <div className="absolute inset-0">
         <img
-          src="https://www.hoistcrane.com/wp-content/uploads/2025/05/HAC-Cranes-Menu-Image.webp"
+          src="/assets/crane-tech.webp"
           alt=""
           className="w-full h-full object-cover opacity-20"
         />
@@ -30,7 +30,7 @@ export default function Login({ onLogin }) {
         {/* Top — Logo + wordmark */}
         <div className="flex flex-col items-center gap-3">
           <img
-            src="https://www.hoistcrane.com/wp-content/uploads/2025/09/Hoist-and-Crane-Logo.svg"
+            src="/assets/hcsg-logo.svg"
             alt="Hoist and Crane Service Group"
             className="h-12 w-auto brightness-0 invert"
           />

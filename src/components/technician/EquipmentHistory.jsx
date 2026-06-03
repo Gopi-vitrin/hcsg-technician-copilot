@@ -8,6 +8,7 @@ const TYPE_STYLES = {
 }
 
 export default function EquipmentHistory({ woId, onBack }) {
+  if (!WORK_ORDERS[woId]) return null
   const wo = WORK_ORDERS[woId]
   const history = wo.equipmentHistory ?? []
 

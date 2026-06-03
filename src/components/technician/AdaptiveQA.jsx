@@ -12,15 +12,17 @@ const clamp = (val) => Math.min(99, Math.max(1, val))
 
 export default function AdaptiveQA({ woId, onBack, onComplete }) {
   const wo = WORK_ORDERS[woId]
-  const questions = wo.adaptiveQuestions
+  const questions = wo?.adaptiveQuestions ?? []
 
   const [currentQ,     setCurrentQ]     = useState(0)
-  const [answers,      setAnswers]      = useState([])          // selected option per question
+  const [answers,      setAnswers]      = useState([])
   const [confidences,  setConfidences]  = useState(
-    wo.predictions.map(p => p.confidence)                       // [87, 71, 38]
+    () => (wo?.predictions ?? []).map(p => p.confidence)
   )
-  const [prevConfidences, setPrevConfidences] = useState(null)  // for showing delta
+  const [prevConfidences, setPrevConfidences] = useState(null)
   const [done,         setDone]         = useState(false)
+
+  if (!wo) return null
 
   function handleAnswer(option) {
     if (answers[currentQ] !== undefined) return                 // already answered
@@ -188,7 +190,7 @@ export default function AdaptiveQA({ woId, onBack, onComplete }) {
               <CheckCircle size={24} className="text-green-400 mx-auto mb-2" />
               <p className="text-white font-semibold text-sm">Diagnosis refined</p>
               <p className="text-white/40 text-xs mt-1">
-                Motor brake fault confirmed at {confidences[0]}% confidence
+                {wo.predictions[0].fault.split('—')[0].trim()} confirmed at {confidences[0]}% confidence
               </p>
             </div>
           </div>

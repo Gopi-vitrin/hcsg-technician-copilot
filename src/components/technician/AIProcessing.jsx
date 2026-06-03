@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
 import { CheckCircle, FileText, Loader } from 'lucide-react'
+import { WORK_ORDERS } from '../../data'
 
-const STEPS = [
-  { id: 1, label: 'Analysing work order...',                   duration: 800,  icon: '📋' },
-  { id: 2, label: 'Searching 4 equipment manuals...',          duration: 1200, icon: '📚' },
-  { id: 3, label: 'Scanning 487 hours of service history...',  duration: 800,  icon: '🔍' },
-  { id: 4, label: 'Cross-referencing similar fault patterns...', duration: 800, icon: '🔗' },
-  { id: 5, label: 'Generating ranked predictions...',          duration: 600,  icon: '⚡' },
+const STEP_TEMPLATES = [
+  { id: 1, label: () => 'Analysing work order...',                              duration: 800  },
+  { id: 2, label: () => 'Searching 4 equipment manuals...',                     duration: 1200 },
+  { id: 3, label: (wo) => `Scanning ${wo.hoursOnUnit} hours of service history...`, duration: 800  },
+  { id: 4, label: () => 'Cross-referencing similar fault patterns...',           duration: 800  },
+  { id: 5, label: () => 'Generating ranked predictions...',                      duration: 600  },
 ]
 
-const TOTAL_DURATION = STEPS.reduce((sum, s) => sum + s.duration, 0) // 4200ms
+const TOTAL_DURATION = STEP_TEMPLATES.reduce((sum, s) => sum + s.duration, 0)
 
 export default function AIProcessing({ woId, onComplete }) {
+  const wo = WORK_ORDERS[woId] ?? WORK_ORDERS['WO-2847']
+  const STEPS = STEP_TEMPLATES.map(t => ({ ...t, label: t.label(wo) }))
   const [activeStep, setActiveStep]       = useState(0) // index of currently-running step
   const [completedSteps, setCompletedSteps] = useState([])
   const [progress, setProgress]           = useState(0)
@@ -72,7 +75,7 @@ export default function AIProcessing({ woId, onComplete }) {
       {/* HCSG logo watermark — top center */}
       <div className="relative flex justify-center pt-10 pb-2">
         <img
-          src="https://www.hoistcrane.com/wp-content/uploads/2025/09/Hoist-and-Crane-Logo.svg"
+          src="/assets/hcsg-logo.svg"
           alt="HCSG"
           className="h-7 brightness-0 invert opacity-30"
         />
@@ -180,7 +183,7 @@ export default function AIProcessing({ woId, onComplete }) {
           {completedSteps.includes(3) && (
             <>
               <span className="text-white/15 text-xs">·</span>
-              <span className="text-white/30 text-xs animate-slide-in">487 hrs service history</span>
+              <span className="text-white/30 text-xs animate-slide-in">{wo.hoursOnUnit} hrs service history</span>
             </>
           )}
           {completedSteps.includes(4) && (

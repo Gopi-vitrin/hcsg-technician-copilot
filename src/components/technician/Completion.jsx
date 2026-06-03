@@ -3,6 +3,7 @@ import { WORK_ORDERS } from '../../data'
 
 export default function Completion({ woId, findings, onReturn }) {
   const wo = WORK_ORDERS[woId]
+  if (!wo) return null
 
   return (
     <div className="flex flex-col h-full bg-hcsg-navy">
