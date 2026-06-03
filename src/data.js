@@ -128,6 +128,8 @@ export const WORK_ORDERS = {
     parts: 'Friction Disc Kit — Part No. 800-5005',
     sourceRef: 'Shaw-Box 800 Series Manual, Section 7-2, p.23',
     faultLabel: 'Motor Brake Adjustment',
+    jobTime: '~52 min',
+    defaultNote: 'Measured motor brake air gap at 0.210". Replaced friction disc (Part No. 800-5005). Gap adjusted to 0.100". Test run — zero drift confirmed on button release.',
   },
 
   'WO-2851': {
@@ -235,6 +237,8 @@ export const WORK_ORDERS = {
     parts: 'Contactor — Part No. 800-656',
     sourceRef: 'Yale Y80 Series Manual, Section 6-4, p.19',
     faultLabel: 'Contactor Inspection & Replacement',
+    jobTime: '~38 min',
+    defaultNote: 'Inspected contactor assembly — UP contactor coil burned out. Replaced contactor (Part No. 800-656). Tested UP/DOWN through full travel with rated load. All functions normal.',
   },
 
   'WO-2853': {
@@ -342,6 +346,8 @@ export const WORK_ORDERS = {
     parts: 'Fuse & Transformer — Part No. 800-673 / 800-671',
     sourceRef: 'World Series Double Girder Trolley Manual, Section 6-1, p.22',
     faultLabel: 'Control Power & Electrical Diagnosis',
+    jobTime: '~65 min',
+    defaultNote: 'Found transformer fuse blown (Part No. 800-673). Inspected control circuit for shorts — none found. Replaced fuse and transformer coil (Part No. 800-671). PPD LED green. All controls tested and operational.',
   },
 }
 

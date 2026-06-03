@@ -7,8 +7,8 @@ export default function Notes({ woId, onBack, onComplete }) {
 
   const [faultConfirmed, setFaultConfirmed] = useState(true)
   const [partsUsed,      setPartsUsed]      = useState(wo?.parts ?? '')
+  const [notes,          setNotes]          = useState(wo?.defaultNote ?? '')
   if (!wo) return null
-  const [notes,          setNotes]          = useState('')
 
   function handleComplete() {
     onComplete({ faultConfirmed, partsUsed, notes })

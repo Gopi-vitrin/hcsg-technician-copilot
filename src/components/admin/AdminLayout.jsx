@@ -1,4 +1,4 @@
-import { LayoutDashboard, FileText, Briefcase, BarChart2 } from 'lucide-react'
+import { LayoutDashboard, FileText, Briefcase, BarChart2, Users } from 'lucide-react'
 import { ADMIN } from '../../data'
 
 const NAV_ITEMS = [
@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { key: 'documents',  label: 'Documents',   icon: FileText },
   { key: 'workorders', label: 'Work Orders', icon: Briefcase },
   { key: 'analytics',  label: 'Analytics',   icon: BarChart2 },
+  { key: 'team',       label: 'Team',        icon: Users },
 ]
 
 export default function AdminLayout({ active, onNavigate, children }) {

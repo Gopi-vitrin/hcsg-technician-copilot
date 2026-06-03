@@ -1,7 +1,7 @@
 import { CheckCircle, MapPin, Package, Clock, ArrowRight } from 'lucide-react'
 import { WORK_ORDERS } from '../../data'
 
-export default function Completion({ woId, findings, onReturn }) {
+export default function Completion({ woId, findings, finalConfidence, onReturn }) {
   const wo = WORK_ORDERS[woId]
   if (!wo) return null
 
@@ -56,7 +56,7 @@ export default function Completion({ woId, findings, onReturn }) {
               <Clock size={14} className="text-white/30" />
               <span className="text-white/40 text-xs uppercase tracking-widest">Job time</span>
             </div>
-            <span className="text-white/60 text-sm font-semibold">~45 min</span>
+            <span className="text-white/60 text-sm font-semibold">{wo.jobTime ?? '~45 min'}</span>
           </div>
 
         </div>
@@ -69,7 +69,7 @@ export default function Completion({ woId, findings, onReturn }) {
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="text-white/40">AI confidence at close</span>
-            <span className="text-green-400 font-semibold">{findings?.faultConfirmed ? '99%' : '—'}</span>
+            <span className="text-green-400 font-semibold">{findings?.faultConfirmed ? `${finalConfidence ?? 99}%` : '—'}</span>
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="text-white/40">Estimated return trip avoided</span>

@@ -517,7 +517,7 @@ export default function DocumentManagement() {
                 {gap.priority}
               </span>
               <button
-                onClick={() => setShowUpload(true)}
+                onClick={() => setShowSharePoint(true)}
                 className="flex items-center gap-1.5 text-hcsg-blue text-xs font-semibold hover:text-hcsg-navy transition-colors"
               >
                 <Plus size={13} /> Add docs

@@ -22,6 +22,7 @@ import AdminDashboard       from './components/admin/AdminDashboard'
 import DocumentManagement   from './components/admin/DocumentManagement'
 import WorkOrderMonitoring  from './components/admin/WorkOrderMonitoring'
 import AIAnalytics          from './components/admin/AIAnalytics'
+import AdminTeam            from './components/admin/AdminTeam'
 
 // Shared
 import RoleSwitcher from './components/shared/RoleSwitcher'
@@ -76,18 +77,24 @@ const NAV_MAP = { jobs: 'work-orders', search: 'search', chat: 'chat', profile: 
 const TAB_MAP = { 'work-orders': 'jobs', search: 'search', chat: 'chat', profile: 'profile' }
 
 export default function App() {
-  const [role,       setRole]       = useState('technician')
-  const [techScreen, setTechScreen] = useState('login')
-  const [adminScreen, setAdminScreen] = useState('admin-login')
-  const [selectedWO, setSelectedWO] = useState(null)
-  const [findings,   setFindings]   = useState(null)
-  const [chatContext, setChatContext] = useState(null)
+  const [role,            setRole]            = useState('technician')
+  const [techScreen,      setTechScreen]      = useState('login')
+  const [adminScreen,     setAdminScreen]     = useState('admin-login')
+  const [selectedWO,      setSelectedWO]      = useState(null)
+  const [findings,        setFindings]        = useState(null)
+  const [chatContext,     setChatContext]     = useState(null)
+  const [finalConfidence, setFinalConfidence] = useState(null)
 
   // --- Technician navigation ---
   const goTech = (s) => setTechScreen(s)
 
   function handleSelectWO(woId)  { setSelectedWO(woId); goTech('wo-detail') }
-  function handleNavTab(tab)     { goTech(NAV_MAP[tab]) }
+
+  // Clear stale context when navigating to Chat via bottom nav
+  function handleNavTab(tab) {
+    if (tab === 'chat') setChatContext(null)
+    goTech(NAV_MAP[tab])
+  }
 
   function handleAskQuestion() {
     setChatContext(selectedWO)
@@ -142,6 +149,7 @@ export default function App() {
             <EquipmentHistory
               woId={selectedWO}
               onBack={() => goTech('wo-detail')}
+              onGetDiagnosis={() => goTech('ai-processing')}
             />
           )}
           {techScreen === 'ai-processing' && (
@@ -159,7 +167,7 @@ export default function App() {
             <AdaptiveQA
               woId={selectedWO}
               onBack={() => goTech('predictions')}
-              onComplete={() => goTech('resolution')}
+              onComplete={(conf) => { setFinalConfidence(conf); goTech('resolution') }}
             />
           )}
           {techScreen === 'resolution' && (
@@ -180,6 +188,7 @@ export default function App() {
             <Completion
               woId={selectedWO}
               findings={findings}
+              finalConfidence={finalConfidence}
               onReturn={() => goTech('work-orders')}
             />
           )}
@@ -198,6 +207,7 @@ export default function App() {
               {adminScreen === 'documents'  && <DocumentManagement />}
               {adminScreen === 'workorders' && <WorkOrderMonitoring />}
               {adminScreen === 'analytics'  && <AIAnalytics />}
+              {adminScreen === 'team'       && <AdminTeam />}
             </AdminLayout>
           )}
         </>

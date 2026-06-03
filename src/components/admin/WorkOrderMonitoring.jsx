@@ -28,6 +28,21 @@ export default function WorkOrderMonitoring() {
         <p className="text-slate-400 text-sm mt-1">Live AI status across all active work orders · Gulf Coast Region</p>
       </div>
 
+      {/* Multi-tech summary bar */}
+      <div className="grid grid-cols-4 gap-3 mb-5">
+        {[
+          { label: 'Techs active today', value: '14', color: 'text-hcsg-navy' },
+          { label: 'AI queries today',   value: '31', color: 'text-hcsg-orange' },
+          { label: 'Coverage-gap zones', value: '3',  color: 'text-hcsg-amber' },
+          { label: 'Escalations open',   value: '1',  color: 'text-hcsg-dark-red' },
+        ].map(s => (
+          <div key={s.label} className="bg-white rounded-xl border border-slate-100 shadow-sm px-4 py-3">
+            <p className={`text-xl font-bold ${s.color}`}>{s.value}</p>
+            <p className="text-slate-400 text-xs mt-0.5">{s.label}</p>
+          </div>
+        ))}
+      </div>
+
       {/* Tech status strip */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-6 flex items-center gap-4">
         <div className="w-10 h-10 rounded-full bg-hcsg-orange flex items-center justify-center text-white font-bold text-sm shrink-0">

@@ -65,10 +65,13 @@ export default function AIAnalytics() {
               const months = ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']
               const isLast = i === ANALYTICS.queriesByMonth.length - 1
               return (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                <div key={i} className="flex-1 flex flex-col items-center gap-1 relative">
+                  {isLast && (
+                    <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-slate-400 text-xs whitespace-nowrap">partial</span>
+                  )}
                   <div className="w-full flex items-end justify-center" style={{ height: 96 }}>
                     <div
-                      className={`w-full rounded-t-md transition-all duration-500 ${isLast ? 'bg-hcsg-orange' : 'bg-hcsg-blue/30'}`}
+                      className={`w-full rounded-t-md transition-all duration-500 ${isLast ? 'bg-hcsg-orange/60 border-t-2 border-dashed border-hcsg-orange' : 'bg-hcsg-blue/30'}`}
                       style={{ height: `${(val / maxMonth) * 96}px` }}
                     />
                   </div>
@@ -77,7 +80,7 @@ export default function AIAnalytics() {
               )
             })}
           </div>
-          <p className="text-slate-400 text-xs mt-3 text-center">Monthly AI queries — steady adoption across field team</p>
+          <p className="text-slate-400 text-xs mt-3 text-center">Monthly AI queries · May is partial (18 days) — steady adoption across field team</p>
         </div>
       </div>
 

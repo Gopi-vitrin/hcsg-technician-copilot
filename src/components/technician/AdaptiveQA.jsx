@@ -201,7 +201,7 @@ export default function AdaptiveQA({ woId, onBack, onComplete }) {
       {/* Sticky CTA — always shows, but highlighted after done */}
       <div className="px-4 pb-6 pt-3 border-t border-white/10">
         <button
-          onClick={onComplete}
+          onClick={() => onComplete(confidences[0])}
           className={`w-full flex items-center justify-center gap-2 font-bold text-base py-4 rounded-2xl transition-all duration-300 ${
             done
               ? 'bg-hcsg-orange hover:bg-hcsg-light-orange text-white shadow-lg shadow-hcsg-orange/25 active:scale-[0.98]'

@@ -16,6 +16,13 @@ function StatCard({ label, value, sub, color = 'text-hcsg-navy', icon: Icon, ico
   )
 }
 
+function greeting() {
+  const h = new Date().getHours()
+  if (h < 12) return 'Good morning'
+  if (h < 17) return 'Good afternoon'
+  return 'Good evening'
+}
+
 export default function AdminDashboard({ onNavigate }) {
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
   const wos = Object.values(WORK_ORDERS)
@@ -25,7 +32,7 @@ export default function AdminDashboard({ onNavigate }) {
 
       {/* Page header */}
       <div className="mb-7">
-        <h1 className="text-hcsg-navy text-2xl font-bold">Good morning, {ADMIN.name.split(' ')[0]}</h1>
+        <h1 className="text-hcsg-navy text-2xl font-bold">{greeting()}, {ADMIN.name.split(' ')[0]}</h1>
         <p className="text-slate-400 text-sm mt-1">{today} · Gulf Coast Region · 32 branches</p>
       </div>
 
@@ -43,16 +50,16 @@ export default function AdminDashboard({ onNavigate }) {
       {/* KPI cards */}
       <div className="grid grid-cols-4 gap-4 mb-7">
         <StatCard label="Manuals Indexed"    value={KNOWLEDGE_BASE.totalDocuments} sub={`${KNOWLEDGE_BASE.totalPages} pages`} icon={FileText}   iconColor="bg-hcsg-blue" />
-        <StatCard label="AI Queries — Month" value={ANALYTICS.totalQueries}        sub="Avg 3.2s response"                    icon={Zap}         iconColor="bg-hcsg-orange" />
+        <StatCard label="AI Queries — Month" value={ANALYTICS.totalQueries}        sub="This month · Avg 3.2s response"        icon={Zap}         iconColor="bg-hcsg-orange" />
         <StatCard label="Active Work Orders" value={wos.length}                    sub="2 emergency repairs today"            icon={Briefcase}   iconColor="bg-hcsg-dark-red" />
         <StatCard label="Branch Coverage"    value="32 / 32"                       sub="Gulf Coast + National"                icon={Users}       iconColor="bg-green-600" />
       </div>
 
       {/* ROI row */}
-      <div className="grid grid-cols-3 gap-4 mb-7">
+      <div className="grid grid-cols-3 gap-4 mb-2">
         {[
-          { label: 'First-Visit Resolution Rate', value: ANALYTICS.firstVisitResolutionRate, delta: '+14% vs pre-AI', color: 'text-green-600' },
-          { label: 'Callback Reduction',          value: ANALYTICS.callbackReduction,        delta: 'Last 90 days',   color: 'text-green-600' },
+          { label: 'First-Visit Resolution Rate', value: ANALYTICS.firstVisitResolutionRate, delta: '+14% vs pre-AI baseline', color: 'text-green-600' },
+          { label: 'Callback Reduction',          value: ANALYTICS.callbackReduction,        delta: 'Last 90 days',            color: 'text-green-600' },
           { label: 'Est. Annual Savings',         value: ANALYTICS.estimatedAnnualSavings,   delta: 'Labor + return trips avoided', color: 'text-hcsg-orange' },
         ].map(m => (
           <div key={m.label} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
@@ -62,6 +69,9 @@ export default function AdminDashboard({ onNavigate }) {
           </div>
         ))}
       </div>
+      <p className="text-slate-400 text-xs mb-5 pl-1">
+        Based on {ANALYTICS.totalQueries} AI-assisted work orders · avg $22 callback cost · 375 technicians across 32 branches
+      </p>
 
       <div className="grid grid-cols-3 gap-6">
 

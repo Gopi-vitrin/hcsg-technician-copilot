@@ -1,4 +1,4 @@
-import { ArrowLeft, Clock, Wrench, CheckCircle, AlertTriangle, Package } from 'lucide-react'
+import { ArrowLeft, Clock, Wrench, CheckCircle, AlertTriangle, Package, Zap } from 'lucide-react'
 import { WORK_ORDERS } from '../../data'
 
 const TYPE_STYLES = {
@@ -7,7 +7,7 @@ const TYPE_STYLES = {
   'Annual Inspection':{ color: 'text-green-400',   bg: 'bg-green-500/15 border-green-500/25',   icon: CheckCircle },
 }
 
-export default function EquipmentHistory({ woId, onBack }) {
+export default function EquipmentHistory({ woId, onBack, onGetDiagnosis }) {
   if (!WORK_ORDERS[woId]) return null
   const wo = WORK_ORDERS[woId]
   const history = wo.equipmentHistory ?? []
@@ -106,6 +106,19 @@ export default function EquipmentHistory({ woId, onBack }) {
           </p>
         </div>
       </div>
+
+      {/* Sticky CTA — skip back to WO detail, or jump straight to AI */}
+      {onGetDiagnosis && (
+        <div className="px-4 pb-6 pt-3 border-t border-white/10">
+          <button
+            onClick={onGetDiagnosis}
+            className="w-full flex items-center justify-center gap-2 bg-hcsg-orange hover:bg-hcsg-light-orange active:scale-[0.98] text-white font-bold text-sm py-3.5 rounded-2xl transition-all shadow-lg shadow-hcsg-orange/25"
+          >
+            <Zap size={16} fill="currentColor" />
+            Get AI Diagnosis
+          </button>
+        </div>
+      )}
     </div>
   )
 }

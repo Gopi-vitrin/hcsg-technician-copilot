@@ -12,10 +12,23 @@ export default function RoleSwitcher({ role, onSwitch }) {
         border: `2px solid ${isAdmin ? '#f7630c' : '#1a3a5c'}`,
       }}
     >
-      {isAdmin
-        ? <><Smartphone size={15} className="text-white" /><span className="text-white text-xs font-semibold">Technician View</span></>
-        : <><Monitor size={15} className="text-white" /><span className="text-white text-xs font-semibold">Admin View</span></>
-      }
+      {isAdmin ? (
+        <>
+          <Smartphone size={15} className="text-white" />
+          <div className="text-left">
+            <p className="text-white text-xs font-semibold leading-tight">Jake Thibodaux</p>
+            <p className="text-white/60 text-xs leading-tight">Field Technician</p>
+          </div>
+        </>
+      ) : (
+        <>
+          <Monitor size={15} className="text-white" />
+          <div className="text-left">
+            <p className="text-white text-xs font-semibold leading-tight">Sandra Arceneaux</p>
+            <p className="text-white/60 text-xs leading-tight">Admin Console</p>
+          </div>
+        </>
+      )}
     </button>
   )
 }
