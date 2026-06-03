@@ -1,4 +1,4 @@
-import { MapPin, Clock, ChevronRight, Search, MessageSquare, User, Briefcase, Plus } from 'lucide-react'
+import { MapPin, Clock, ChevronRight, Search, MessageSquare, User, Briefcase, Plus, Calendar } from 'lucide-react'
 import { TECHNICIAN, WORK_ORDERS } from '../../data'
 
 const STATUS_STYLES = {
@@ -21,7 +21,7 @@ function WorkOrderCard({ wo, onTap, isHero }) {
           : 'bg-white/5 border border-white/8'
       }`}
     >
-      {/* Row 1 — WO number + priority */}
+      {/* Row 1 — WO number + date/time + priority */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="text-white/40 text-xs font-mono">{wo.id}</span>
@@ -29,9 +29,15 @@ function WorkOrderCard({ wo, onTap, isHero }) {
             <span className="text-hcsg-orange text-xs font-semibold">● NOW</span>
           )}
         </div>
-        <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${PRIORITY_STYLES[wo.priority]}`}>
-          {wo.priority.toUpperCase()}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-1 text-white/40 text-xs">
+            <Clock size={10} />
+            {wo.scheduledDate}
+          </span>
+          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${PRIORITY_STYLES[wo.priority]}`}>
+            {wo.priority.toUpperCase()}
+          </span>
+        </div>
       </div>
 
       {/* Row 2 — Customer */}
@@ -39,16 +45,10 @@ function WorkOrderCard({ wo, onTap, isHero }) {
         {wo.customer}
       </p>
 
-      {/* Row 3 — Site + time */}
-      <div className="flex items-center gap-3 mt-1 mb-2">
-        <span className="flex items-center gap-1 text-white/40 text-xs">
-          <MapPin size={11} />
-          {wo.site}
-        </span>
-        <span className="flex items-center gap-1 text-white/40 text-xs">
-          <Clock size={11} />
-          {wo.scheduledDate}
-        </span>
+      {/* Row 3 — Site only */}
+      <div className="flex items-center gap-1 mt-1 mb-2">
+        <MapPin size={11} className="text-white/40" />
+        <span className="text-white/40 text-xs">{wo.site}</span>
       </div>
 
       {/* Row 4 — Equipment */}
