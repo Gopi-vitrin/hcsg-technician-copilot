@@ -82,9 +82,9 @@ function OverviewTab({ wo }) {
 
       {/* AI context — new in V2 */}
       {wo.aiContext && (
-        <div className="p-3 flex items-start gap-2.5" style={{ border: '1px solid rgba(17,89,175,0.25)', borderRadius: 6, background: 'rgba(17,89,175,0.08)' }}>
-          <Zap size={13} className="text-hcsg-blue mt-0.5 shrink-0" fill="currentColor" />
-          <p className="text-hcsg-blue text-xs leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif" }}>{wo.aiContext}</p>
+        <div className="p-3 flex items-start gap-2.5" style={{ border: '1px solid rgba(1,30,65,0.35)', borderRadius: 6, background: 'rgba(1,30,65,0.12)' }}>
+          <Zap size={13} className="text-hcsg-navy mt-0.5 shrink-0" fill="currentColor" />
+          <p className="text-hcsg-navy text-xs leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif" }}>{wo.aiContext}</p>
         </div>
       )}
 
@@ -177,7 +177,7 @@ function DiagnoseTab({ wo, confidences, setConfidences, qaDone, setQaDone }) {
     }
   }
 
-  const confColor = c => c >= 75 ? '#4ade80' : c >= 50 ? '#f5a524' : 'rgba(255,255,255,0.3)'
+  const confColor = c => c >= 75 ? '#13612e' : c >= 50 ? '#f5a524' : 'rgba(255,255,255,0.3)'
   const delta = prevConf ? confidences[0] - prevConf[0] : 0
 
   if (aiPhase === 'processing') {
@@ -203,7 +203,7 @@ function DiagnoseTab({ wo, confidences, setConfidences, qaDone, setQaDone }) {
             return (
               <div key={s.id} className="flex items-center gap-3" style={{ opacity: i > activeStep && !done ? 0.2 : 1 }}>
                 <div className="w-5 h-5 shrink-0 flex items-center justify-center">
-                  {done ? <CheckCircle size={16} className="text-green-400" />
+                  {done ? <CheckCircle size={16} className="text-hcsg-green" />
                     : active ? <div className="w-3.5 h-3.5 border-2 border-hcsg-orange border-t-transparent rounded-full animate-spin" />
                     : <div className="w-3 h-3" style={{ border: '1px solid rgba(255,255,255,0.2)', borderRadius: 2 }} />}
                 </div>
@@ -231,13 +231,13 @@ function DiagnoseTab({ wo, confidences, setConfidences, qaDone, setQaDone }) {
   return (
     <div className="px-4 py-4 space-y-4">
       {/* Live confidence card */}
-      <div className="p-4" style={{ border: '1px solid rgba(74,222,128,0.2)', borderRadius: 6, background: 'rgba(74,222,128,0.04)' }}>
+      <div className="p-4" style={{ border: '1px solid rgba(19,97,46,0.15)', borderRadius: 6, background: 'rgba(19,97,46,0.06)' }}>
         <div className="flex items-center justify-between mb-1">
           <span className="font-700 text-white/30 text-xs tracking-widest" style={BC}>TOP PREDICTION — LIVE CONFIDENCE</span>
           <div className="flex items-center gap-1.5">
             <span className="font-800 text-lg" style={{ ...BC, color: confColor(confidences[0]) }}>{confidences[0]}%</span>
             {delta !== 0 && (
-              <span className="text-xs font-700" style={{ ...BC, color: delta > 0 ? '#4ade80' : '#f87171' }}>
+              <span className="text-xs font-700" style={{ ...BC, color: delta > 0 ? '#13612e' : '#e06060' }}>
                 {delta > 0 ? `+${delta}` : delta}
               </span>
             )}
@@ -273,7 +273,7 @@ function DiagnoseTab({ wo, confidences, setConfidences, qaDone, setQaDone }) {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 flex items-center justify-center font-800 text-xs text-white" style={{ ...BC, background: isTop ? '#e65e25' : 'rgba(255,255,255,0.1)', borderRadius: 3 }}>{p.rank}</div>
-                  <span className="font-700 text-xs tracking-wider px-2 py-0.5" style={{ ...BC, borderRadius: 3, background: p.severity === 'HIGH' ? 'rgba(184,33,5,0.2)' : p.severity === 'MEDIUM' ? 'rgba(245,165,36,0.15)' : 'rgba(255,255,255,0.05)', color: p.severity === 'HIGH' ? '#f87171' : p.severity === 'MEDIUM' ? '#f5a524' : 'rgba(255,255,255,0.3)', border: `1px solid ${p.severity === 'HIGH' ? 'rgba(184,33,5,0.3)' : p.severity === 'MEDIUM' ? 'rgba(245,165,36,0.2)' : 'rgba(255,255,255,0.08)'}` }}>{p.severity}</span>
+                  <span className="font-700 text-xs tracking-wider px-2 py-0.5" style={{ ...BC, borderRadius: 3, background: p.severity === 'HIGH' ? 'rgba(184,33,5,0.2)' : p.severity === 'MEDIUM' ? 'rgba(245,165,36,0.15)' : 'rgba(255,255,255,0.05)', color: p.severity === 'HIGH' ? '#e06060' : p.severity === 'MEDIUM' ? '#f5a524' : 'rgba(255,255,255,0.3)', border: `1px solid ${p.severity === 'HIGH' ? 'rgba(184,33,5,0.3)' : p.severity === 'MEDIUM' ? 'rgba(245,165,36,0.2)' : 'rgba(255,255,255,0.08)'}` }}>{p.severity}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-800 text-sm" style={{ ...BC, color: confColor(confidences[idx]) }}>{confidences[idx]}%</span>
@@ -294,14 +294,14 @@ function DiagnoseTab({ wo, confidences, setConfidences, qaDone, setQaDone }) {
             <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
               <button onClick={() => setCitOpen(o => ({ ...o, [citKey]: !o[citKey] }))} className="w-full flex items-center justify-between px-4 py-2.5">
                 <div className="flex items-center gap-2">
-                  <BookOpen size={12} className="text-hcsg-blue" />
-                  <span className="text-xs font-600 truncate max-w-52" style={{ ...BC, color: '#1159af' }}>{p.source.split(',')[0]}</span>
+                  <BookOpen size={12} className="text-hcsg-navy" />
+                  <span className="text-xs font-600 truncate max-w-52" style={{ ...BC, color: '#011e41' }}>{p.source.split(',')[0]}</span>
                 </div>
                 {citOpen[citKey] ? <ChevronUp size={13} className="text-white/20 shrink-0" /> : <ChevronDown size={13} className="text-white/20 shrink-0" />}
               </button>
               {citOpen[citKey] && (
                 <div className="px-4 pb-3">
-                  <p className="text-white/35 text-xs italic leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", borderLeft: '2px solid rgba(17,89,175,0.3)', paddingLeft: 8 }}>{p.citation}</p>
+                  <p className="text-white/35 text-xs italic leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", borderLeft: '2px solid rgba(1,30,65,0.3)', paddingLeft: 8 }}>{p.citation}</p>
                   <p className="text-white/20 text-xs mt-1">{p.source}</p>
                 </div>
               )}
@@ -312,7 +312,7 @@ function DiagnoseTab({ wo, confidences, setConfidences, qaDone, setQaDone }) {
                 <button onClick={() => setWarnOpen(o => ({ ...o, [warnKey]: !o[warnKey] }))} className="w-full flex items-center justify-between px-4 py-2.5" style={{ background: warnOpen[warnKey] ? 'rgba(184,33,5,0.12)' : 'transparent' }}>
                   <div className="flex items-center gap-2">
                     <AlertTriangle size={12} className="text-red-400" />
-                    <span className="text-xs font-700" style={{ ...BC, color: '#f87171' }}>SAFETY WARNING</span>
+                    <span className="text-xs font-700" style={{ ...BC, color: '#e06060' }}>SAFETY WARNING</span>
                   </div>
                   {warnOpen[warnKey] ? <ChevronUp size={13} className="text-red-400/40 shrink-0" /> : <ChevronDown size={13} className="text-white/20 shrink-0" />}
                 </button>
@@ -358,8 +358,8 @@ function DiagnoseTab({ wo, confidences, setConfidences, qaDone, setQaDone }) {
                 </div>
               </div>
               {answered && (
-                <div className="flex items-start gap-2 px-3 py-2.5" style={{ background: 'rgba(74,222,128,0.05)', border: '1px solid rgba(74,222,128,0.15)', borderRadius: 4 }}>
-                  <CheckCircle size={12} className="text-green-400 mt-0.5 shrink-0" />
+                <div className="flex items-start gap-2 px-3 py-2.5" style={{ background: 'rgba(19,97,46,0.06)', border: '1px solid rgba(19,97,46,0.12)', borderRadius: 4 }}>
+                  <CheckCircle size={12} className="text-hcsg-green mt-0.5 shrink-0" />
                   <p className="text-white/50 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>{q.impact[answers[qi]]}</p>
                 </div>
               )}
@@ -368,8 +368,8 @@ function DiagnoseTab({ wo, confidences, setConfidences, qaDone, setQaDone }) {
         })}
 
         {qaDone && (
-          <div className="p-4 text-center" style={{ border: '1px solid rgba(74,222,128,0.2)', borderRadius: 6, background: 'rgba(74,222,128,0.06)' }}>
-            <CheckCircle size={22} className="text-green-400 mx-auto mb-2" />
+          <div className="p-4 text-center" style={{ border: '1px solid rgba(19,97,46,0.15)', borderRadius: 6, background: 'rgba(74,222,128,0.06)' }}>
+            <CheckCircle size={22} className="text-hcsg-green mx-auto mb-2" />
             <p className="font-800 text-white text-sm tracking-wide uppercase" style={BC}>DIAGNOSIS REFINED</p>
             <p className="text-white/40 text-xs mt-1" style={{ fontFamily: "'Barlow', sans-serif" }}>
               {wo.predictions[0].fault.split('—')[0].trim()} — {confidences[0]}% confidence
@@ -393,16 +393,16 @@ function ResolveTab({ wo }) {
       {/* Progress header */}
       <div className="flex items-center justify-between mb-1">
         <span className="font-700 text-white/30 text-xs tracking-widest uppercase" style={BC}>RESOLUTION STEPS</span>
-        <span className="font-800 text-xs" style={{ ...BC, color: allDone ? '#4ade80' : '#e65e25' }}>{done.size}/{total}</span>
+        <span className="font-800 text-xs" style={{ ...BC, color: allDone ? '#13612e' : '#e65e25' }}>{done.size}/{total}</span>
       </div>
       <div className="h-1 mb-1" style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 2 }}>
-        <div className="h-full transition-all duration-500" style={{ width: `${pct}%`, background: allDone ? '#4ade80' : '#e65e25', borderRadius: 2 }} />
+        <div className="h-full transition-all duration-500" style={{ width: `${pct}%`, background: allDone ? '#13612e' : '#e65e25', borderRadius: 2 }} />
       </div>
 
       {/* Source ref */}
-      <div className="flex items-center gap-2 px-3 py-2" style={{ background: 'rgba(17,89,175,0.08)', border: '1px solid rgba(17,89,175,0.2)', borderRadius: 4 }}>
-        <BookOpen size={12} className="text-hcsg-blue shrink-0" />
-        <p className="text-hcsg-blue text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>{wo.sourceRef}</p>
+      <div className="flex items-center gap-2 px-3 py-2" style={{ background: 'rgba(1,30,65,0.12)', border: '1px solid rgba(1,30,65,0.3)', borderRadius: 4 }}>
+        <BookOpen size={12} className="text-hcsg-navy shrink-0" />
+        <p className="text-hcsg-navy text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>{wo.sourceRef}</p>
       </div>
 
       {/* Steps */}
@@ -424,10 +424,10 @@ function ResolveTab({ wo }) {
           >
             <div className="p-3.5 flex items-start gap-3">
               <div className="flex flex-col items-center gap-1.5 shrink-0 pt-0.5">
-                <span className="font-800 text-xs font-mono" style={{ ...BC, color: isComplete ? '#4ade80' : isLoto ? '#f87171' : 'rgba(255,255,255,0.2)' }}>
+                <span className="font-800 text-xs font-mono" style={{ ...BC, color: isComplete ? '#13612e' : isLoto ? '#e06060' : 'rgba(255,255,255,0.2)' }}>
                   {String(s.step).padStart(2, '0')}
                 </span>
-                {isComplete ? <CheckCircle size={18} className="text-green-400" /> : <Circle size={18} style={{ color: isLoto ? 'rgba(248,113,113,0.4)' : 'rgba(255,255,255,0.15)' }} />}
+                {isComplete ? <CheckCircle size={18} className="text-hcsg-green" /> : <Circle size={18} style={{ color: isLoto ? 'rgba(248,113,113,0.4)' : 'rgba(255,255,255,0.15)' }} />}
               </div>
               <div className="flex-1">
                 {isLoto && (
@@ -461,8 +461,8 @@ function ResolveTab({ wo }) {
       </div>
 
       {allDone && (
-        <div className="flex items-center gap-3 p-3.5" style={{ border: '1px solid rgba(74,222,128,0.2)', borderRadius: 6, background: 'rgba(74,222,128,0.05)' }}>
-          <CheckCircle size={16} className="text-green-400 shrink-0" />
+        <div className="flex items-center gap-3 p-3.5" style={{ border: '1px solid rgba(19,97,46,0.15)', borderRadius: 6, background: 'rgba(19,97,46,0.06)' }}>
+          <CheckCircle size={16} className="text-hcsg-green shrink-0" />
           <p className="font-700 text-green-300 text-sm tracking-wide uppercase" style={BC}>ALL STEPS COMPLETE</p>
         </div>
       )}
@@ -480,19 +480,19 @@ function CloseTab({ wo, onComplete }) {
     return (
       <div className="flex flex-col items-center justify-center h-full px-6 gap-6 pb-8">
         <div className="relative">
-          <div className="absolute w-28 h-28 rounded-full" style={{ border: '2px solid rgba(74,222,128,0.2)', animation: 'ping 2s ease-in-out infinite', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }} />
-          <div className="w-24 h-24 rounded-full flex items-center justify-center" style={{ border: '2px solid rgba(74,222,128,0.4)', background: 'rgba(74,222,128,0.1)' }}>
-            <CheckCircle size={42} className="text-green-400" strokeWidth={1.5} />
+          <div className="absolute w-28 h-28 rounded-full" style={{ border: '2px solid rgba(19,97,46,0.15)', animation: 'ping 2s ease-in-out infinite', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }} />
+          <div className="w-24 h-24 rounded-full flex items-center justify-center" style={{ border: '2px solid rgba(74,222,128,0.4)', background: 'rgba(19,97,46,0.1)' }}>
+            <CheckCircle size={42} className="text-hcsg-green" strokeWidth={1.5} />
           </div>
         </div>
         <div className="text-center">
-          <p className="font-700 text-green-400 text-xs tracking-widest uppercase mb-1" style={BC}>WORK ORDER COMPLETE</p>
+          <p className="font-700 text-hcsg-green text-xs tracking-widest uppercase mb-1" style={BC}>WORK ORDER COMPLETE</p>
           <p className="font-800 text-white" style={{ ...BC, fontSize: 28, letterSpacing: '-0.5px' }}>{wo.id}</p>
           <p className="text-white/40 text-sm mt-1" style={{ fontFamily: "'Barlow', sans-serif" }}>{wo.customer} · {wo.site}</p>
         </div>
         <div className="w-full space-y-2">
           {[
-            { label: 'FAULT CONFIRMED', value: confirmed ? '✓ YES' : '✗ ESCALATED', color: confirmed ? '#4ade80' : '#f87171' },
+            { label: 'FAULT CONFIRMED', value: confirmed ? '✓ YES' : '✗ ESCALATED', color: confirmed ? '#13612e' : '#e06060' },
             { label: 'PARTS USED', value: wo.parts.split('—')[0].trim(), color: 'rgba(255,255,255,0.6)' },
             { label: 'JOB TIME', value: wo.jobTime ?? '~45 min', color: 'rgba(255,255,255,0.6)' },
           ].map(r => (
@@ -501,9 +501,9 @@ function CloseTab({ wo, onComplete }) {
               <span className="font-700 text-sm" style={{ ...BC, color: r.color }}>{r.value}</span>
             </div>
           ))}
-          <div className="px-4 py-3" style={{ border: '1px solid rgba(74,222,128,0.15)', borderRadius: 4, background: 'rgba(74,222,128,0.05)' }}>
-            <div className="flex justify-between text-xs mb-1.5"><span className="text-white/30 font-700" style={BC}>FIRST-VISIT RESOLUTION</span><span className="text-green-400 font-700" style={BC}>✓ CONFIRMED</span></div>
-            <div className="flex justify-between text-xs"><span className="text-white/30 font-700" style={BC}>RETURN TRIP AVOIDED</span><span className="text-green-400 font-700" style={BC}>1 CALLBACK SAVED</span></div>
+          <div className="px-4 py-3" style={{ border: '1px solid rgba(19,97,46,0.12)', borderRadius: 4, background: 'rgba(19,97,46,0.06)' }}>
+            <div className="flex justify-between text-xs mb-1.5"><span className="text-white/30 font-700" style={BC}>FIRST-VISIT RESOLUTION</span><span className="text-hcsg-green font-700" style={BC}>✓ CONFIRMED</span></div>
+            <div className="flex justify-between text-xs"><span className="text-white/30 font-700" style={BC}>RETURN TRIP AVOIDED</span><span className="text-hcsg-green font-700" style={BC}>1 CALLBACK SAVED</span></div>
           </div>
         </div>
         <button onClick={() => onComplete()} className="w-full py-3.5 font-800 text-white tracking-widest uppercase text-sm" style={{ ...BC, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 4 }}>
@@ -522,7 +522,7 @@ function CloseTab({ wo, onComplete }) {
           {[true, false].map(v => (
             <button key={String(v)} onClick={() => setConfirmed(v)}
               className="flex items-center justify-center gap-2 py-3.5 text-sm font-700 transition-all"
-              style={{ ...BC, borderRadius: 4, background: confirmed === v ? (v ? 'rgba(74,222,128,0.12)' : 'rgba(184,33,5,0.12)') : 'rgba(255,255,255,0.04)', border: `1px solid ${confirmed === v ? (v ? 'rgba(74,222,128,0.3)' : 'rgba(184,33,5,0.3)') : 'rgba(255,255,255,0.08)'}`, color: confirmed === v ? (v ? '#4ade80' : '#f87171') : 'rgba(255,255,255,0.3)' }}
+              style={{ ...BC, borderRadius: 4, background: confirmed === v ? (v ? 'rgba(19,97,46,0.1)' : 'rgba(184,33,5,0.12)') : 'rgba(255,255,255,0.04)', border: `1px solid ${confirmed === v ? (v ? 'rgba(74,222,128,0.3)' : 'rgba(184,33,5,0.3)') : 'rgba(255,255,255,0.08)'}`, color: confirmed === v ? (v ? '#13612e' : '#e06060') : 'rgba(255,255,255,0.3)' }}
             >
               {v ? <CheckCircle size={14} /> : <XCircle size={14} />}
               {v ? 'YES — CONFIRMED' : 'NO — ESCALATE'}
@@ -603,9 +603,9 @@ export default function WOHub({ woId, onBack, onComplete }) {
           <p className="font-800 text-white truncate" style={{ ...BC, fontSize: 16, letterSpacing: '-0.2px' }}>{wo.customer.toUpperCase()}</p>
         </div>
         {wo.aiReady && (
-          <div className="flex items-center gap-1.5 px-2.5 py-1 shrink-0" style={{ background: 'rgba(74,222,128,0.1)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: 3 }}>
-            <Zap size={11} className="text-green-400" fill="currentColor" />
-            <span className="font-700 text-green-400 text-xs tracking-wider" style={BC}>AI</span>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 shrink-0" style={{ background: 'rgba(19,97,46,0.1)', border: '1px solid rgba(19,97,46,0.15)', borderRadius: 3 }}>
+            <Zap size={11} className="text-hcsg-green" fill="currentColor" />
+            <span className="font-700 text-hcsg-green text-xs tracking-wider" style={BC}>AI</span>
           </div>
         )}
       </div>

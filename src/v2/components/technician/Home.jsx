@@ -42,7 +42,7 @@ function WOCard({ wo, onTap, isUrgent }) {
             {wo.aiReady && (
               <span
                 className="flex items-center gap-1 px-2 py-0.5 text-xs font-display font-700 tracking-wider"
-                style={{ fontFamily: "'Barlow Condensed', sans-serif", background: '#16a34a22', border: '1px solid #16a34a44', color: '#4ade80', borderRadius: 3 }}
+                style={{ fontFamily: "'Barlow Condensed', sans-serif", background: '#13612e22', border: '1px solid #13612e44', color: '#13612e', borderRadius: 3 }}
               >
                 <Zap size={9} fill="currentColor" />
                 AI READY
@@ -244,8 +244,8 @@ export default function Home({ onSelectWO, onNavigate, activeTab = 'home' }) {
             </p>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            <span className="font-display font-700 text-green-400/70 text-xs tracking-widest uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse" />
+            <span className="font-display font-700 text-hcsg-green/70 text-xs tracking-widest uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
               ON SHIFT
             </span>
           </div>

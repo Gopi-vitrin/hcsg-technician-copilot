@@ -26,18 +26,18 @@ function kbMatch(e, q) {
 function KBCard({ e }) {
   const [open, setOpen] = useState(false)
   return (
-    <button onClick={() => setOpen(v => !v)} className="w-full text-left p-4 transition-colors" style={{ border: '1px solid rgba(17,89,175,0.2)', borderLeft: '4px solid #1159af', borderRadius: 6, background: 'rgba(17,89,175,0.05)' }}>
+    <button onClick={() => setOpen(v => !v)} className="w-full text-left p-4 transition-colors" style={{ border: '1px solid rgba(1,30,65,0.3)', borderLeft: '4px solid #e65e25', borderRadius: 6, background: 'rgba(1,30,65,0.08)' }}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-start gap-2.5 flex-1">
-          <BookOpen size={13} className="text-hcsg-blue mt-0.5 shrink-0" />
+          <BookOpen size={13} className="text-hcsg-navy mt-0.5 shrink-0" />
           <div>
             <p className="font-700 text-white/85 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>{e.title}</p>
-            <p className="text-xs mt-0.5" style={{ fontFamily: "'Barlow', sans-serif", color: 'rgba(17,89,175,0.8)' }}>{e.source} · {e.section}</p>
+            <p className="text-xs mt-0.5" style={{ fontFamily: "'Barlow', sans-serif", color: 'rgba(255,255,255,0.55)' }}>{e.source} · {e.section}</p>
           </div>
         </div>
         {open ? <ChevronUp size={13} className="text-white/20 shrink-0 mt-1" /> : <ChevronDown size={13} className="text-white/20 shrink-0 mt-1" />}
       </div>
-      {open && <p className="text-white/40 text-xs leading-relaxed italic mt-3 pl-5" style={{ fontFamily: "'Barlow', sans-serif", borderLeft: '2px solid rgba(17,89,175,0.3)', paddingLeft: 10 }}>{e.snippet}</p>}
+      {open && <p className="text-white/40 text-xs leading-relaxed italic mt-3 pl-5" style={{ fontFamily: "'Barlow', sans-serif", borderLeft: '2px solid rgba(1,30,65,0.3)', paddingLeft: 10 }}>{e.snippet}</p>}
     </button>
   )
 }
@@ -48,7 +48,7 @@ function WOCard({ wo, onTap }) {
       <div className="flex items-center justify-between mb-1.5">
         <span className="font-700 text-white/35 text-xs" style={BC}>{wo.id}</span>
         <div className="flex items-center gap-1.5">
-          {wo.aiReady && <Zap size={10} className="text-green-400" fill="currentColor" />}
+          {wo.aiReady && <Zap size={10} className="text-hcsg-green" fill="currentColor" />}
           <span className="font-700 text-xs px-1.5 py-0.5" style={{ ...BC, borderRadius: 3, background: wo.priority === 'High' ? '#b82105' : '#f5a524', color: wo.priority === 'High' ? 'white' : '#011e41' }}>{wo.priority.toUpperCase()}</span>
         </div>
       </div>

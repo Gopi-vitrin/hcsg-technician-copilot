@@ -30,8 +30,8 @@ export default function Profile({ onSignOut }) {
             <span className="text-white/40 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>07:00 – 15:30 · Gulf Coast Region</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            <span className="font-700 text-green-400/70 text-xs tracking-wider" style={BC}>ON SHIFT</span>
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse" />
+            <span className="font-700 text-hcsg-green/70 text-xs tracking-wider" style={BC}>ON SHIFT</span>
           </div>
         </div>
       </div>
@@ -54,8 +54,8 @@ export default function Profile({ onSignOut }) {
         </div>
         <div className="space-y-1.5">
           {TECHNICIAN.certifications.map(cert => (
-            <div key={cert} className="flex items-center gap-2.5 px-3 py-2.5" style={{ border: '1px solid rgba(74,222,128,0.15)', borderRadius: 4, background: 'rgba(74,222,128,0.04)' }}>
-              <Award size={13} className="text-green-400 shrink-0" />
+            <div key={cert} className="flex items-center gap-2.5 px-3 py-2.5" style={{ border: '1px solid rgba(19,97,46,0.12)', borderRadius: 4, background: 'rgba(19,97,46,0.06)' }}>
+              <Award size={13} className="text-hcsg-green shrink-0" />
               <p className="text-white/65 text-xs font-semibold" style={{ fontFamily: "'Barlow', sans-serif" }}>{cert}</p>
             </div>
           ))}
@@ -64,9 +64,9 @@ export default function Profile({ onSignOut }) {
 
       {/* Knowledge base */}
       <div className="px-4 pb-4">
-        <div className="px-3 py-3" style={{ border: '1px solid rgba(17,89,175,0.2)', borderRadius: 4, background: 'rgba(17,89,175,0.06)' }}>
+        <div className="px-3 py-3" style={{ border: '1px solid rgba(230,94,37,0.2)', borderRadius: 4, background: 'rgba(230,94,37,0.05)' }}>
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-700 text-hcsg-blue text-xs tracking-widest uppercase" style={BC}>KNOWLEDGE BASE</span>
+            <span className="font-700 text-hcsg-navy text-xs tracking-widest uppercase" style={BC}>KNOWLEDGE BASE</span>
           </div>
           <p className="text-white/45 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>{KNOWLEDGE_BASE.totalDocuments} manuals indexed · {KNOWLEDGE_BASE.totalPages} pages · Last updated {KNOWLEDGE_BASE.lastUpdated}</p>
         </div>

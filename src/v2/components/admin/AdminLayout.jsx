@@ -13,7 +13,7 @@ const NAV = [
 
 export default function AdminLayout({ active, onNavigate, children }) {
   return (
-    <div className="flex min-h-screen" style={{ background: '#FAF8F5' }}>
+    <div className="flex min-h-screen" style={{ background: '#f5f5f5' }}>
 
       {/* Sidebar */}
       <div className="w-52 shrink-0 flex flex-col" style={{ background: '#011e41' }}>

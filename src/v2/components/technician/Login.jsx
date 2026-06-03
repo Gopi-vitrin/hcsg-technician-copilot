@@ -124,8 +124,8 @@ export default function Login({ onLogin }) {
           )}
 
           {state === 'done' && (
-            <div className="w-full flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-4 v2-fade-up" style={{ borderRadius: 4 }}>
-              <CheckCircle size={20} className="text-green-400 shrink-0" />
+            <div className="w-full flex items-center gap-3 bg-hcsg-green/10 border border-hcsg-green/20 px-5 py-4 v2-fade-up" style={{ borderRadius: 4 }}>
+              <CheckCircle size={20} className="text-hcsg-green shrink-0" />
               <div>
                 <p className="font-display font-700 text-white text-sm tracking-wide uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
                   Welcome back, {TECH.name.split(' ')[0]}
@@ -141,7 +141,7 @@ export default function Login({ onLogin }) {
               Secured by Microsoft Entra ID
             </p>
             <div className="flex items-center gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-400/60" />
+              <div className="w-1.5 h-1.5 rounded-full bg-hcsg-green/60" />
               <span className="text-white/20 text-xs">Systems online</span>
             </div>
           </div>

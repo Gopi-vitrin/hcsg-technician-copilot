@@ -55,8 +55,8 @@ export default function AdminLogin({ onLogin }) {
               </div>
             )}
             {state === 'done' && (
-              <div className="w-full flex items-center gap-3 px-5 py-4" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: 4 }}>
-                <CheckCircle size={18} className="text-green-400 shrink-0" />
+              <div className="w-full flex items-center gap-3 px-5 py-4" style={{ background: 'rgba(19,97,46,0.08)', border: '1px solid rgba(19,97,46,0.15)', borderRadius: 4 }}>
+                <CheckCircle size={18} className="text-hcsg-green shrink-0" />
                 <div>
                   <p className="font-800 text-white text-sm tracking-wide uppercase" style={BC}>WELCOME, {ADMIN.name.split(' ')[0].toUpperCase()}</p>
                   <p className="text-white/40 text-xs mt-0.5" style={{ fontFamily: "'Barlow', sans-serif" }}>{ADMIN.branch}</p>

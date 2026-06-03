@@ -23,7 +23,7 @@ export default function Dashboard({ onNavigate }) {
   const wos = Object.values(WORK_ORDERS)
 
   const actions = [
-    { color: '#b82105', bg: 'rgba(184,33,5,0.06)', border: 'rgba(184,33,5,0.2)', icon: AlertTriangle, iconColor: '#f87171', label: 'COVERAGE GAP', desc: 'Industrial Elevators — no manuals indexed. Technicians have no AI support for elevator faults.', cta: 'ADD DOCUMENTS', screen: 'knowledge' },
+    { color: '#b82105', bg: 'rgba(184,33,5,0.06)', border: 'rgba(184,33,5,0.2)', icon: AlertTriangle, iconColor: '#e06060', label: 'COVERAGE GAP', desc: 'Industrial Elevators — no manuals indexed. Technicians have no AI support for elevator faults.', cta: 'ADD DOCUMENTS', screen: 'knowledge' },
     { color: '#f5a524', bg: 'rgba(245,165,36,0.06)', border: 'rgba(245,165,36,0.2)', icon: Zap,           iconColor: '#f5a524', label: 'AI INSIGHT',    desc: 'Motor brake queries up 34% this month — Shaw-Box 800 service bulletin may be needed.', cta: 'VIEW ANALYTICS', screen: 'analytics' },
   ]
 
@@ -65,17 +65,17 @@ export default function Dashboard({ onNavigate }) {
 
       {/* KPIs */}
       <div className="grid grid-cols-4 gap-4 mb-6">
-        <Stat label="MANUALS INDEXED"    value={KNOWLEDGE_BASE.totalDocuments} sub={`${KNOWLEDGE_BASE.totalPages} pages`} iconBg="#1159af" />
+        <Stat label="MANUALS INDEXED"    value={KNOWLEDGE_BASE.totalDocuments} sub={`${KNOWLEDGE_BASE.totalPages} pages`} iconBg="#011e41" />
         <Stat label="AI QUERIES — MONTH" value={ANALYTICS.totalQueries}        sub="This month · avg 3.2s"                iconBg="#e65e25" />
         <Stat label="ACTIVE WORK ORDERS" value={wos.length}                    sub="2 emergency today"                   iconBg="#b82105" />
-        <Stat label="BRANCH COVERAGE"    value="32 / 32"                       sub="Gulf Coast + National"               iconBg="#16a34a" />
+        <Stat label="BRANCH COVERAGE"    value="32 / 32"                       sub="Gulf Coast + National"               iconBg="#13612e" />
       </div>
 
       {/* ROI */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         {[
-          { label: 'FIRST-VISIT RESOLUTION', value: ANALYTICS.firstVisitResolutionRate, sub: '+14% vs pre-AI', color: '#16a34a' },
-          { label: 'CALLBACK REDUCTION',     value: ANALYTICS.callbackReduction,         sub: 'Last 90 days',  color: '#16a34a' },
+          { label: 'FIRST-VISIT RESOLUTION', value: ANALYTICS.firstVisitResolutionRate, sub: '+14% vs pre-AI', color: '#13612e' },
+          { label: 'CALLBACK REDUCTION',     value: ANALYTICS.callbackReduction,         sub: 'Last 90 days',  color: '#13612e' },
           { label: 'EST. ANNUAL SAVINGS',    value: ANALYTICS.estimatedAnnualSavings,    sub: 'Labor + return trips', color: '#e65e25' },
         ].map(m => (
           <div key={m.label} className="bg-white p-5" style={{ borderRadius: 6, borderTop: `3px solid ${m.color}` }}>
@@ -94,15 +94,15 @@ export default function Dashboard({ onNavigate }) {
         <div className="col-span-2 bg-white p-5" style={{ borderRadius: 6 }}>
           <div className="flex items-center justify-between mb-4">
             <p className="font-800 text-hcsg-navy text-sm tracking-wide" style={BC}>ACTIVE WORK ORDERS</p>
-            <button onClick={() => onNavigate('workorders')} className="flex items-center gap-1 text-xs font-700" style={{ ...BC, color: '#1159af' }}>VIEW ALL <ArrowRight size={11} /></button>
+            <button onClick={() => onNavigate('workorders')} className="flex items-center gap-1 text-xs font-700" style={{ ...BC, color: '#011e41' }}>VIEW ALL <ArrowRight size={11} /></button>
           </div>
           <div className="space-y-2">
             {wos.map(wo => (
-              <div key={wo.id} className="flex items-center gap-3 px-3 py-2.5" style={{ borderRadius: 4, border: '1px solid #FAF8F5' }}>
+              <div key={wo.id} className="flex items-center gap-3 px-3 py-2.5" style={{ borderRadius: 4, border: '1px solid #f5f5f5' }}>
                 <span className="text-xs font-700 px-1.5 py-0.5" style={{ ...BC, borderRadius: 3, background: wo.priority === 'High' ? '#b82105' : '#f5a524', color: wo.priority === 'High' ? 'white' : '#011e41' }}>{wo.priority.toUpperCase()}</span>
                 <span className="text-slate-700 text-sm font-semibold flex-1" style={{ fontFamily: "'Barlow', sans-serif" }}>{wo.customer}</span>
                 <span className="text-slate-400 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>{wo.site}</span>
-                <span className="flex items-center gap-1 text-xs font-700 px-2 py-0.5" style={{ ...BC, borderRadius: 3, background: 'rgba(74,222,128,0.1)', color: '#16a34a', border: '1px solid rgba(74,222,128,0.2)' }}><Zap size={9} fill="currentColor" />AI READY</span>
+                <span className="flex items-center gap-1 text-xs font-700 px-2 py-0.5" style={{ ...BC, borderRadius: 3, background: 'rgba(19,97,46,0.1)', color: '#13612e', border: '1px solid rgba(19,97,46,0.15)' }}><Zap size={9} fill="currentColor" />AI READY</span>
               </div>
             ))}
           </div>

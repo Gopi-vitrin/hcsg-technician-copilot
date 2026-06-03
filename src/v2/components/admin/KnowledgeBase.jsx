@@ -34,9 +34,9 @@ function SPModal({ onClose, onImport }) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white w-full max-w-lg overflow-hidden" style={{ borderRadius: 6 }}>
-        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid #FAF8F5' }}>
+        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid #f5f5f5' }}>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 flex items-center justify-center" style={{ background: '#0078D4', borderRadius: 4 }}>
+            <div className="w-8 h-8 flex items-center justify-center" style={{ background: '#011e41', borderRadius: 4 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-6h2v6zm0-8h-2V6.5h2V8.5z"/></svg>
             </div>
             <div>
@@ -52,26 +52,26 @@ function SPModal({ onClose, onImport }) {
             return (
               <button key={f.name} onClick={() => !importing && toggle(f.name)}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left transition-all"
-                style={{ borderRadius: 4, border: isDone ? '1px solid rgba(74,222,128,0.3)' : isSel ? '1px solid rgba(230,94,37,0.3)' : '1px solid #FAF8F5', background: isDone ? 'rgba(74,222,128,0.04)' : isSel ? 'rgba(230,94,37,0.04)' : 'white' }}>
-                <div className="w-8 h-8 flex items-center justify-center shrink-0" style={{ borderRadius: 4, background: isDone ? '#dcfce7' : '#fee2e2' }}>
-                  {isDone ? <CheckCircle size={14} className="text-green-600" /> : <FileText size={14} className="text-red-500" />}
+                style={{ borderRadius: 4, border: isDone ? '1px solid rgba(74,222,128,0.3)' : isSel ? '1px solid rgba(230,94,37,0.3)' : '1px solid #f5f5f5', background: isDone ? 'rgba(19,97,46,0.06)' : isSel ? 'rgba(230,94,37,0.04)' : 'white' }}>
+                <div className="w-8 h-8 flex items-center justify-center shrink-0" style={{ borderRadius: 4, background: isDone ? 'rgba(19,97,46,0.1)' : 'rgba(184,33,5,0.1)' }}>
+                  {isDone ? <CheckCircle size={14} className="text-hcsg-green" /> : <FileText size={14} className="text-red-500" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-slate-700 text-sm font-semibold truncate" style={{ fontFamily: "'Barlow', sans-serif" }}>{f.name}</p>
                   <p className="text-slate-400 text-xs">{f.type} · {f.size}</p>
                 </div>
-                {isDone ? <span className="text-green-600 text-xs font-700 shrink-0" style={BC}>INDEXED</span>
+                {isDone ? <span className="text-hcsg-green text-xs font-700 shrink-0" style={BC}>INDEXED</span>
                   : importing && isSel ? <Loader size={13} className="text-hcsg-orange animate-spin shrink-0" />
                   : isSel ? <CheckCircle size={14} className="text-hcsg-orange shrink-0" /> : null}
               </button>
             )
           })}
         </div>
-        <div className="px-6 py-4 flex items-center justify-between" style={{ borderTop: '1px solid #FAF8F5' }}>
+        <div className="px-6 py-4 flex items-center justify-between" style={{ borderTop: '1px solid #f5f5f5' }}>
           <p className="text-slate-400 text-xs">{sel.length} selected</p>
           <div className="flex gap-2">
             <button onClick={onClose} className="px-4 py-2 text-slate-500 text-sm">Cancel</button>
-            <button onClick={go} disabled={!sel.length || importing} className="px-5 py-2 text-sm font-700 text-white" style={{ ...BC, background: sel.length && !importing ? '#e65e25' : '#E0D7CE', color: sel.length && !importing ? 'white' : '#9A8B7A', borderRadius: 4 }}>
+            <button onClick={go} disabled={!sel.length || importing} className="px-5 py-2 text-sm font-700 text-white" style={{ ...BC, background: sel.length && !importing ? '#e65e25' : '#e8e8e8', color: sel.length && !importing ? 'white' : '#b6b7a9', borderRadius: 4 }}>
               {importing ? 'INDEXING…' : 'IMPORT & INDEX'}
             </button>
           </div>
@@ -97,7 +97,7 @@ function UploadModal({ onClose, onDone }) {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
       <div className="bg-white w-full max-w-md overflow-hidden" style={{ borderRadius: 6 }}>
-        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid #FAF8F5', borderTop: '3px solid #e65e25' }}>
+        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid #f5f5f5', borderTop: '3px solid #e65e25' }}>
           <div className="flex items-center gap-3">
             <Upload size={16} className="text-hcsg-orange" />
             <p className="font-800 text-slate-800 text-sm" style={BC}>UPLOAD MANUAL</p>
@@ -113,13 +113,13 @@ function UploadModal({ onClose, onDone }) {
               </div>
               <div>
                 <p className="font-700 text-slate-500 text-xs tracking-widest uppercase mb-1.5" style={BC}>EQUIPMENT TYPE</p>
-                <select value={equip} onChange={e => setEquip(e.target.value)} className="w-full px-3 py-2.5 text-slate-700 text-sm bg-white" style={{ border: '1px solid #E0D7CE', borderRadius: 4 }}>
+                <select value={equip} onChange={e => setEquip(e.target.value)} className="w-full px-3 py-2.5 text-slate-700 text-sm bg-white" style={{ border: '1px solid #e8e8e8', borderRadius: 4 }}>
                   <option value="">Select…</option>
                   {EQUIP_TYPES.map(t => <option key={t}>{t}</option>)}
                 </select>
               </div>
               <div className="flex gap-2 flex-wrap">
-                {DOC_TYPES.map(t => <button key={t} onClick={() => setType(t)} className="text-xs font-700 px-3 py-1.5" style={{ ...BC, borderRadius: 3, background: type === t ? '#011e41' : 'white', color: type === t ? 'white' : '#6B5A4A', border: '1px solid #E0D7CE' }}>{t.toUpperCase()}</button>)}
+                {DOC_TYPES.map(t => <button key={t} onClick={() => setType(t)} className="text-xs font-700 px-3 py-1.5" style={{ ...BC, borderRadius: 3, background: type === t ? '#011e41' : 'white', color: type === t ? 'white' : '#555555', border: '1px solid #e8e8e8' }}>{t.toUpperCase()}</button>)}
               </div>
             </>
           )}
@@ -130,26 +130,26 @@ function UploadModal({ onClose, onDone }) {
                 <div className="flex-1"><p className="text-slate-700 text-sm font-semibold truncate">{file?.name}</p><p className="text-slate-400 text-xs">Uploading…</p></div>
                 <span className="font-800 text-sm" style={{ ...BC, color: '#e65e25' }}>{prog}%</span>
               </div>
-              <div className="h-1.5" style={{ background: '#FAF8F5', borderRadius: 2 }}><div className="h-full transition-all" style={{ width: `${prog}%`, background: '#e65e25', borderRadius: 2 }} /></div>
+              <div className="h-1.5" style={{ background: '#f5f5f5', borderRadius: 2 }}><div className="h-full transition-all" style={{ width: `${prog}%`, background: '#e65e25', borderRadius: 2 }} /></div>
             </div>
           )}
           {stage === 'index' && (
             <div className="py-4 flex items-center gap-3">
-              <Loader size={18} className="text-hcsg-blue animate-spin shrink-0" />
+              <Loader size={18} className="text-hcsg-navy animate-spin shrink-0" />
               <div><p className="text-slate-700 text-sm font-semibold">Indexing document…</p><p className="text-slate-400 text-xs">Building search index</p></div>
             </div>
           )}
           {stage === 'done' && (
             <div className="py-4 flex items-center gap-3">
-              <div className="w-10 h-10 flex items-center justify-center" style={{ background: '#dcfce7', borderRadius: 4 }}><CheckCircle size={18} className="text-green-600" /></div>
+              <div className="w-10 h-10 flex items-center justify-center" style={{ background: 'rgba(19,97,46,0.1)', borderRadius: 4 }}><CheckCircle size={18} className="text-hcsg-green" /></div>
               <div><p className="text-slate-700 text-sm font-semibold">Indexed successfully</p><p className="text-slate-400 text-xs">{file?.name} ready for AI queries</p></div>
             </div>
           )}
         </div>
         {stage === 'form' && (
-          <div className="px-6 py-4 flex justify-end gap-2" style={{ borderTop: '1px solid #FAF8F5' }}>
+          <div className="px-6 py-4 flex justify-end gap-2" style={{ borderTop: '1px solid #f5f5f5' }}>
             <button onClick={onClose} className="px-4 py-2 text-slate-500 text-sm">Cancel</button>
-            <button onClick={run} disabled={!file || !equip} className="px-5 py-2 text-sm font-700 text-white" style={{ ...BC, background: file && equip ? '#e65e25' : '#E0D7CE', color: file && equip ? 'white' : '#9A8B7A', borderRadius: 4 }}>
+            <button onClick={run} disabled={!file || !equip} className="px-5 py-2 text-sm font-700 text-white" style={{ ...BC, background: file && equip ? '#e65e25' : '#e8e8e8', color: file && equip ? 'white' : '#b6b7a9', borderRadius: 4 }}>
               UPLOAD & INDEX
             </button>
           </div>
@@ -192,8 +192,8 @@ export default function KnowledgeBase() {
           <p className="text-slate-400 text-sm mt-0.5" style={{ fontFamily: "'Barlow', sans-serif" }}>{allDocs.length} documents · {KNOWLEDGE_BASE.totalPages} pages · Last updated {KNOWLEDGE_BASE.lastUpdated}</p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => setShowSP(true)} className="flex items-center gap-2 px-4 py-2.5 text-sm bg-white font-700" style={{ ...BC, border: '1px solid #E0D7CE', borderRadius: 4, color: '#2D2018' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" fill="#0078D4"/><path d="M9 8h6M9 11h4" stroke="white" strokeWidth="1.5" strokeLinecap="round"/></svg>
+          <button onClick={() => setShowSP(true)} className="flex items-center gap-2 px-4 py-2.5 text-sm bg-white font-700" style={{ ...BC, border: '1px solid #e8e8e8', borderRadius: 4, color: '#000000' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" fill="#011e41"/><path d="M9 8h6M9 11h4" stroke="white" strokeWidth="1.5" strokeLinecap="round"/></svg>
             ADD FROM SHAREPOINT
           </button>
           <button onClick={() => setShowUp(true)} className="flex items-center gap-2 px-4 py-2.5 text-sm text-white font-700" style={{ ...BC, background: '#e65e25', borderRadius: 4 }}>
@@ -203,8 +203,8 @@ export default function KnowledgeBase() {
       </div>
 
       {banner && (
-        <div className="flex items-center gap-3 px-5 py-3 mb-5" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 4 }}>
-          <CheckCircle size={15} className="text-green-600 shrink-0" />
+        <div className="flex items-center gap-3 px-5 py-3 mb-5" style={{ background: 'rgba(19,97,46,0.06)', border: '1px solid rgba(19,97,46,0.15)', borderRadius: 4 }}>
+          <CheckCircle size={15} className="text-hcsg-green shrink-0" />
           <p className="text-green-700 text-sm font-semibold" style={{ fontFamily: "'Barlow', sans-serif" }}>
             {banner === 'upload' ? 'Manual uploaded and indexed.' : `${extras.filter(e => e.source === 'SharePoint').length} documents imported from SharePoint.`}
           </p>
@@ -212,19 +212,19 @@ export default function KnowledgeBase() {
       )}
 
       {/* Table */}
-      <div className="bg-white mb-6 overflow-hidden" style={{ borderRadius: 6, border: '1px solid #E0D7CE', borderTop: '3px solid #e65e25' }}>
-        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #FAF8F5' }}>
+      <div className="bg-white mb-6 overflow-hidden" style={{ borderRadius: 6, border: '1px solid #e8e8e8', borderTop: '3px solid #e65e25' }}>
+        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #f5f5f5' }}>
           <p className="font-800 text-slate-700 text-sm" style={BC}>INDEXED DOCUMENTS</p>
           <span className="font-700 text-slate-400 text-xs" style={BC}>{allDocs.length} TOTAL</span>
         </div>
         <table className="w-full">
-          <thead><tr style={{ background: '#FAF8F5' }}>{['DOCUMENT','TYPE','EQUIPMENT','PAGES','SOURCE','STATUS','UPLOADED'].map(h => <th key={h} className="px-4 py-3 text-left text-xs font-700 tracking-widest text-slate-400" style={BC}>{h}</th>)}</tr></thead>
-          <tbody className="divide-y" style={{ borderColor: '#FAF8F5' }}>
+          <thead><tr style={{ background: '#f5f5f5' }}>{['DOCUMENT','TYPE','EQUIPMENT','PAGES','SOURCE','STATUS','UPLOADED'].map(h => <th key={h} className="px-4 py-3 text-left text-xs font-700 tracking-widest text-slate-400" style={BC}>{h}</th>)}</tr></thead>
+          <tbody className="divide-y" style={{ borderColor: '#f5f5f5' }}>
             {allDocs.map((d, i) => (
               <tr key={i} className="hover:bg-slate-50 transition-colors">
                 <td className="px-4 py-3.5">
                   <div className="flex items-center gap-2">
-                    <FileText size={13} className="text-hcsg-blue shrink-0" />
+                    <FileText size={13} className="text-hcsg-navy shrink-0" />
                     <span className="text-slate-700 text-sm font-semibold" style={{ fontFamily: "'Barlow', sans-serif" }}>{d.name}</span>
                   </div>
                 </td>
@@ -232,10 +232,10 @@ export default function KnowledgeBase() {
                 <td className="px-4 py-3.5 text-slate-500 text-sm">{d.equipment}</td>
                 <td className="px-4 py-3.5 text-slate-500 text-sm">{d.pages}</td>
                 <td className="px-4 py-3.5">
-                  <span className="text-xs font-700 px-2 py-0.5 whitespace-nowrap" style={{ ...BC, borderRadius: 3, background: d.source === 'SharePoint' ? '#FFF3EC' : '#F5EDE6', color: d.source === 'SharePoint' ? '#B55C35' : '#653a15', border: `1px solid ${d.source === 'SharePoint' ? '#F5C9A0' : '#E0D0C5'}` }}>{d.source.toUpperCase()}</span>
+                  <span className="text-xs font-700 px-2 py-0.5 whitespace-nowrap" style={{ ...BC, borderRadius: 3, background: d.source === 'SharePoint' ? 'rgba(230,94,37,0.07)' : 'rgba(101,58,21,0.07)', color: d.source === 'SharePoint' ? '#B55C35' : '#653a15', border: `1px solid ${d.source === 'SharePoint' ? 'rgba(181,92,53,0.22)' : 'rgba(101,58,21,0.18)'}` }}>{d.source.toUpperCase()}</span>
                 </td>
                 <td className="px-4 py-3.5">
-                  <span className="flex items-center gap-1.5 text-green-600 text-xs font-700 whitespace-nowrap" style={BC}><CheckCircle size={11} />{d.status.toUpperCase()}</span>
+                  <span className="flex items-center gap-1.5 text-hcsg-green text-xs font-700 whitespace-nowrap" style={BC}><CheckCircle size={11} />{d.status.toUpperCase()}</span>
                 </td>
                 <td className="px-4 py-3.5 text-slate-400 text-sm">{d.uploaded}</td>
               </tr>
@@ -245,12 +245,12 @@ export default function KnowledgeBase() {
       </div>
 
       {/* Coverage gaps */}
-      <div className="bg-white overflow-hidden" style={{ borderRadius: 6, border: '1px solid #E0D7CE', borderTop: '3px solid #f5a524' }}>
-        <div className="flex items-center gap-2 px-5 py-4" style={{ borderBottom: '1px solid #FAF8F5' }}>
+      <div className="bg-white overflow-hidden" style={{ borderRadius: 6, border: '1px solid #e8e8e8', borderTop: '3px solid #f5a524' }}>
+        <div className="flex items-center gap-2 px-5 py-4" style={{ borderBottom: '1px solid #f5f5f5' }}>
           <AlertTriangle size={14} className="text-hcsg-amber" />
           <p className="font-800 text-slate-700 text-sm" style={BC}>COVERAGE GAPS · {KNOWLEDGE_BASE.coverageGaps.length} IDENTIFIED</p>
         </div>
-        <div className="divide-y" style={{ borderColor: '#FAF8F5' }}>
+        <div className="divide-y" style={{ borderColor: '#f5f5f5' }}>
           {KNOWLEDGE_BASE.coverageGaps.map((g, i) => (
             <div key={i} className="flex items-center gap-4 px-5 py-4">
               <div className="w-9 h-9 flex items-center justify-center bg-slate-100 shrink-0" style={{ borderRadius: 4 }}>
@@ -260,8 +260,8 @@ export default function KnowledgeBase() {
                 <p className="text-slate-700 text-sm font-semibold" style={{ fontFamily: "'Barlow', sans-serif" }}>{g.equipment}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{g.status}</p>
               </div>
-              <span className="text-xs font-700 px-2.5 py-1" style={{ ...BC, borderRadius: 3, background: g.priority === 'High' ? 'rgba(184,33,5,0.06)' : 'rgba(245,165,36,0.06)', color: g.priority === 'High' ? '#b82105' : '#c47d1a', border: `1px solid ${g.priority === 'High' ? 'rgba(184,33,5,0.15)' : 'rgba(245,165,36,0.25)'}` }}>{g.priority.toUpperCase()}</span>
-              <button onClick={() => setShowSP(true)} className="flex items-center gap-1 text-xs font-700" style={{ ...BC, color: '#1159af' }}><Plus size={12} /> ADD DOCS</button>
+              <span className="text-xs font-700 px-2.5 py-1" style={{ ...BC, borderRadius: 3, background: g.priority === 'High' ? 'rgba(184,33,5,0.06)' : 'rgba(245,165,36,0.06)', color: g.priority === 'High' ? '#b82105' : '#f5a524', border: `1px solid ${g.priority === 'High' ? 'rgba(184,33,5,0.15)' : 'rgba(245,165,36,0.25)'}` }}>{g.priority.toUpperCase()}</span>
+              <button onClick={() => setShowSP(true)} className="flex items-center gap-1 text-xs font-700" style={{ ...BC, color: '#011e41' }}><Plus size={12} /> ADD DOCS</button>
             </div>
           ))}
         </div>
