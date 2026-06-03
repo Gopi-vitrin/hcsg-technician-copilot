@@ -48,39 +48,6 @@ export default function Profile({ onSignOut, completedWOs = [] }) {
         ))}
       </div>
 
-      {/* Previous work orders */}
-      <div className="mx-4 mb-4">
-        <p className="text-white/40 text-xs uppercase tracking-widest mb-2.5 px-1">Previous Work Orders</p>
-        <div className="space-y-2">
-          {TECHNICIAN_HISTORY.map(wo => (
-            <div key={wo.id} className="bg-white/5 border border-white/8 rounded-2xl p-4">
-              <div className="flex items-start justify-between gap-2 mb-1.5">
-                <div className="min-w-0">
-                  <p className="text-white/80 font-semibold text-sm truncate">{wo.customer}</p>
-                  <p className="text-white/35 text-xs mt-0.5">{wo.id} · {wo.site}</p>
-                </div>
-                <span className="shrink-0 text-xs font-semibold text-green-400 bg-green-500/12 border border-green-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
-                  <CheckCircle size={9} />
-                  Done
-                </span>
-              </div>
-              <p className="text-white/35 text-xs mb-1.5">{wo.equipment.split('—')[0].trim()} · {wo.jobType}</p>
-              <p className="text-white/25 text-xs leading-relaxed line-clamp-2">{wo.outcome}</p>
-              {wo.partsUsed && (
-                <div className="flex items-center gap-1.5 mt-2">
-                  <Package size={10} className="text-hcsg-orange shrink-0" />
-                  <p className="text-white/25 text-xs truncate">{wo.partsUsed.split('—')[0].trim()}</p>
-                </div>
-              )}
-              <div className="flex items-center gap-1 mt-2">
-                <Clock size={10} className="text-white/20" />
-                <p className="text-white/20 text-xs">{wo.date}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Settings list */}
       <div className="mx-4 bg-white/5 border border-white/10 rounded-2xl overflow-hidden divide-y divide-white/8 mb-4">
         <SettingRow icon={<Bell size={15} className="text-white/50" />}    label="Notifications"    value="On" />
@@ -134,6 +101,39 @@ export default function Profile({ onSignOut, completedWOs = [] }) {
           <p className="text-white/20 text-xs">No completed work orders yet</p>
         </div>
       )}
+
+      {/* Previous work orders */}
+      <div className="mx-4 mb-4">
+        <p className="text-white/40 text-xs uppercase tracking-widest mb-2.5 px-1">Previous Work Orders</p>
+        <div className="space-y-2">
+          {TECHNICIAN_HISTORY.map(wo => (
+            <div key={wo.id} className="bg-white/5 border border-white/8 rounded-2xl p-4">
+              <div className="flex items-start justify-between gap-2 mb-1.5">
+                <div className="min-w-0">
+                  <p className="text-white/80 font-semibold text-sm truncate">{wo.customer}</p>
+                  <p className="text-white/35 text-xs mt-0.5">{wo.id} · {wo.site}</p>
+                </div>
+                <span className="shrink-0 text-xs font-semibold text-green-400 bg-green-500/12 border border-green-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <CheckCircle size={9} />
+                  Done
+                </span>
+              </div>
+              <p className="text-white/35 text-xs mb-1.5">{wo.equipment.split('—')[0].trim()} · {wo.jobType}</p>
+              <p className="text-white/25 text-xs leading-relaxed line-clamp-2">{wo.outcome}</p>
+              {wo.partsUsed && (
+                <div className="flex items-center gap-1.5 mt-2">
+                  <Package size={10} className="text-hcsg-orange shrink-0" />
+                  <p className="text-white/25 text-xs truncate">{wo.partsUsed.split('—')[0].trim()}</p>
+                </div>
+              )}
+              <div className="flex items-center gap-1 mt-2">
+                <Clock size={10} className="text-white/20" />
+                <p className="text-white/20 text-xs">{wo.date}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Sign out */}
       <div className="mx-4 mb-8">
