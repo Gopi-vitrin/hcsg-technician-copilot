@@ -110,7 +110,7 @@ function OverviewTab({ wo }) {
                 <div className="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full" style={{ border: '2px solid #e65e25', background: '#011e41' }} />
                 <div className="p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 6 }}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-700 text-xs tracking-wider" style={{ ...BC, color: e.type === 'Corrective Repair' ? '#f5a524' : '#60a5fa' }}>{e.type.toUpperCase()}</span>
+                    <span className="font-700 text-xs tracking-wider" style={{ ...BC, color: e.type === 'Corrective Repair' ? '#f5a524' : '#e65e25' }}>{e.type.toUpperCase()}</span>
                     <span className="text-white/30 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>{e.date} · {e.hours} hrs</span>
                   </div>
                   <p className="text-white/60 text-xs leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif" }}>{e.findings}</p>
@@ -592,7 +592,7 @@ export default function WOHub({ woId, onBack, onComplete }) {
     <div className="flex flex-col h-full bg-hcsg-navy">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 pt-4 pb-3 shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <button onClick={onBack} className="w-9 h-9 flex items-center justify-center shrink-0" style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 4 }}>
+        <button onClick={onBack} className="v2-touch shrink-0" style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 4 }}>
           <ArrowLeft size={16} className="text-white" />
         </button>
         <div className="flex-1 min-w-0">

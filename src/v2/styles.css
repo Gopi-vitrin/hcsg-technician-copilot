@@ -2,20 +2,136 @@
 @tailwind components;
 @tailwind utilities;
 
-/* V2 design system */
+/* ─── V2 Design System ─────────────────────────────────────────── */
 :root {
-  --font-display: 'Barlow Condensed', sans-serif;
-  --font-body:    'Barlow', sans-serif;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-body:    'Barlow', system-ui, -apple-system, sans-serif;
+  --hcsg-orange:  #e65e25;
+  --hcsg-navy:    #011e41;
 }
 
-* { -webkit-tap-highlight-color: transparent; }
+* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
 
-body { background: #011e41; min-height: 100vh; font-family: var(--font-body); }
+body {
+  background: #011e41;
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  /* Prevent elastic scroll on iOS from showing white beneath */
+  overscroll-behavior: none;
+}
 
-/* Barlow Condensed utility */
 .font-display { font-family: var(--font-display); }
 
-/* Triple chevron motif */
+/* ─── Responsive Phone Frame ───────────────────────────────────── */
+
+/* Mobile-first: fills entire screen */
+.v2-phone-outer {
+  position: relative;
+  background: #011e41;
+  min-height: 100dvh;
+}
+
+.v2-phone-frame {
+  position: relative;
+  background: #011e41;
+  overflow: hidden;
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.v2-phone-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* iOS safe area: push content below the status bar / notch */
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.v2-notch     { display: none; }
+.v2-grid-bg   { display: none; }
+
+/* Desktop: simulate phone frame */
+@media (min-width: 768px) {
+  body { background: #09090b; }
+
+  .v2-phone-outer {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+
+  .v2-grid-bg {
+    display: block;
+    position: fixed;
+    inset: 0;
+    opacity: 0.025;
+    pointer-events: none;
+    background-image:
+      linear-gradient(#e65e25 1px, transparent 1px),
+      linear-gradient(90deg, #e65e25 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .v2-phone-frame {
+    width: 390px;
+    height: 844px;
+    border-radius: 32px;
+    box-shadow: 0 32px 60px -12px rgba(0,0,0,0.9);
+    flex-shrink: 0;
+  }
+
+  .v2-phone-content {
+    padding-top: 24px;   /* simulated notch clearance */
+    height: 844px;
+  }
+
+  .v2-notch {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 112px;
+    height: 24px;
+    background: #09090b;
+    border-radius: 0 0 16px 16px;
+    z-index: 50;
+  }
+}
+
+/* ─── Safe-area Bottom (home indicator on iPhone) ──────────────── */
+.v2-bottom-nav {
+  padding-top: 8px;
+  /* At least 20px, more if there's a home indicator */
+  padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  flex-shrink: 0;
+}
+
+/* ─── Scrollable areas ─────────────────────────────────────────── */
+.v2-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.v2-scroll::-webkit-scrollbar       { width: 3px; }
+.v2-scroll::-webkit-scrollbar-track { background: transparent; }
+.v2-scroll::-webkit-scrollbar-thumb { background: rgba(230,94,37,0.25); border-radius: 2px; }
+
+/* ─── Touch targets (min 44×44px) ─────────────────────────────── */
+.v2-touch {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Brand motifs ─────────────────────────────────────────────── */
 .chevron-accent::before {
   content: '›››';
   color: #e65e25;
@@ -25,34 +141,13 @@ body { background: #011e41; min-height: 100vh; font-family: var(--font-body); }
   margin-right: 8px;
 }
 
-/* Orange frame border treatment (website signature) */
+/* Orange photo frame (hoistcrane.com signature) */
 .orange-frame {
   outline: 3px solid #e65e25;
   outline-offset: -6px;
 }
 
-/* Corner badge (diagonal triangle) */
-.corner-badge {
-  position: relative;
-  overflow: hidden;
-}
-.corner-badge::after {
-  content: attr(data-badge);
-  position: absolute;
-  top: 8px;
-  right: -18px;
-  background: #e65e25;
-  color: white;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 9px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 2px 20px;
-  transform: rotate(45deg);
-}
-
-/* V2 animations */
+/* ─── Animations ────────────────────────────────────────────────── */
 @keyframes v2-fade-up {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -71,12 +166,21 @@ body { background: #011e41; min-height: 100vh; font-family: var(--font-body); }
 }
 .v2-chevron-pulse { animation: v2-chevron-pulse 1.2s ease-in-out infinite; }
 
-@keyframes v2-scan {
-  0%   { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(100%); opacity: 0; }
+@keyframes v2-glow-pulse {
+  0%, 100% { opacity: 0.12; transform: scale(1); }
+  50%       { opacity: 0.28; transform: scale(1.08); }
 }
+.v2-glow-pulse { animation: v2-glow-pulse 2.4s ease-in-out infinite; }
 
-/* Custom scrollbar for V2 */
-.v2-scroll::-webkit-scrollbar { width: 3px; }
-.v2-scroll::-webkit-scrollbar-track { background: transparent; }
-.v2-scroll::-webkit-scrollbar-thumb { background: #e65e2540; border-radius: 2px; }
+@keyframes badge-pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.v2-badge-pulse { animation: badge-pulse 0.5s ease-out 0.3s both; }
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.v2-card-in { animation: card-in 0.35s ease-out both; }

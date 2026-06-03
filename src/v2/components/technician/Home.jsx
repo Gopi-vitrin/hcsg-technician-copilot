@@ -117,13 +117,13 @@ function BottomNav({ active, onNavigate }) {
     { key: 'me',     label: 'ME',     icon: User     },
   ]
   return (
-    <div className="border-t border-white/10 bg-hcsg-navy px-2 pb-5 pt-2 shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+    <div className="v2-bottom-nav border-t border-white/10 bg-hcsg-navy px-2" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
       <div className="flex items-center justify-around">
         {items.map(({ key, label, icon: Icon }) => (
           <button
             key={key}
             onClick={() => onNavigate(key)}
-            className="flex flex-col items-center gap-1 px-4 py-1 transition-colors"
+            className="v2-touch flex flex-col items-center gap-1 px-4 transition-colors flex-1"
           >
             <Icon size={18} color={active === key ? '#e65e25' : 'rgba(255,255,255,0.25)'} />
             <span

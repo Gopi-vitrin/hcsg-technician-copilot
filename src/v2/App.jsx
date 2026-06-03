@@ -33,11 +33,13 @@ function BottomNav({ active, onNavigate }) {
     { key: 'me',     label: 'ME',     Icon: User       },
   ]
   return (
-    <div className="border-t border-white/8 bg-hcsg-navy px-2 pb-5 pt-2 shrink-0">
+    // v2-bottom-nav handles safe-area padding for iPhone home indicator
+    <div className="v2-bottom-nav border-t border-white/8 bg-hcsg-navy px-2">
       <div className="flex items-center justify-around">
         {items.map(({ key, label, Icon }) => (
-          <button key={key} onClick={() => onNavigate(key)} className="flex flex-col items-center gap-1 px-4 py-1 transition-colors">
-            <Icon size={18} color={active === key ? '#e65e25' : 'rgba(255,255,255,0.2)'} />
+          // v2-touch ensures 44px minimum tap target
+          <button key={key} onClick={() => onNavigate(key)} className="v2-touch flex flex-col items-center gap-1 px-4 transition-colors flex-1">
+            <Icon size={20} color={active === key ? '#e65e25' : 'rgba(255,255,255,0.2)'} />
             <span className="font-700" style={{ ...BC, fontSize: 9, letterSpacing: '0.12em', color: active === key ? '#e65e25' : 'rgba(255,255,255,0.2)' }}>{label}</span>
           </button>
         ))}
@@ -48,11 +50,14 @@ function BottomNav({ active, onNavigate }) {
 
 function PhoneFrame({ children }) {
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-8 overflow-y-auto">
-      <div className="fixed inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#e65e25 1px,transparent 1px),linear-gradient(90deg,#e65e25 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
-      <div className="relative bg-hcsg-navy overflow-hidden shadow-2xl" style={{ width: 390, minHeight: 844, borderRadius: 32 }}>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-zinc-950 rounded-b-2xl z-50" />
-        <div className="flex flex-col" style={{ paddingTop: 24, height: 844 }}>
+    // CSS classes handle responsive behaviour:
+    // mobile  → full screen, safe-area padding, no border-radius
+    // desktop → 390×844 phone frame, orange grid background, notch
+    <div className="v2-phone-outer">
+      <div className="v2-grid-bg" />
+      <div className="v2-phone-frame">
+        <div className="v2-notch" />
+        <div className="v2-phone-content">
           {children}
         </div>
       </div>
