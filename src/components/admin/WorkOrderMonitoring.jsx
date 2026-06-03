@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ChevronDown, ChevronUp, Zap, MapPin, Clock, CheckCircle, Package, AlertTriangle } from 'lucide-react'
+import { ChevronDown, ChevronUp, MapPin, Clock, CheckCircle, Package, AlertTriangle } from 'lucide-react'
 import { WORK_ORDERS, TECHNICIAN } from '../../data'
 
 const STATUS_STYLES = {
@@ -86,9 +86,6 @@ export default function WorkOrderMonitoring({ completedWOs = [] }) {
                 </span>
                 <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${STATUS_STYLES[wo.status]}`}>
                   {wo.status}
-                </span>
-                <span className="flex items-center gap-1 text-green-600 text-xs font-semibold bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
-                  <Zap size={10} fill="currentColor" /> AI Ready
                 </span>
                 <span className="text-slate-300">
                   {expanded === wo.id ? <ChevronUp size={15} /> : <ChevronDown size={15} />}

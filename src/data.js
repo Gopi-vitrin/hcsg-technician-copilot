@@ -738,6 +738,53 @@ export const WORK_ORDERS = {
   },
 }
 
+export const TECHNICIAN_HISTORY = [
+  {
+    id: 'WO-2831',
+    customer: 'Dow Chemical',
+    site: 'Freeport, TX',
+    equipment: 'Yale Y80 Series — 3-Ton Wire Rope Hoist',
+    jobType: 'Corrective Repair',
+    date: 'Mar 3, 2025',
+    outcome: 'Load brake friction washers replaced due to glazing. No drift on test run.',
+    partsUsed: 'Friction Washer (x2) — Part No. 800-235',
+    status: 'Completed',
+  },
+  {
+    id: 'WO-2819',
+    customer: 'Westlake Chemical',
+    site: 'Sulphur, LA',
+    equipment: 'Shaw-Box Series 800 — 2-Ton Wire Rope Hoist',
+    jobType: 'Routine PM',
+    date: 'Feb 14, 2025',
+    outcome: 'Quarterly PM completed. Chain elongation within spec. Brake air gap 0.092". No deficiencies.',
+    partsUsed: 'Chain lubricant',
+    status: 'Completed',
+  },
+  {
+    id: 'WO-2804',
+    customer: 'ExxonMobil',
+    site: 'Baton Rouge, LA',
+    equipment: 'World Series Double Girder Crane — 10-Ton',
+    jobType: 'Annual Inspection',
+    date: 'Jan 22, 2025',
+    outcome: 'ASME B30.2 annual inspection. Wire rope replaced — exceeded service life. Load test passed.',
+    partsUsed: 'Wire Rope — Part No. 800-145',
+    status: 'Completed',
+  },
+  {
+    id: 'WO-2791',
+    customer: 'LyondellBasell',
+    site: 'Houston, TX',
+    equipment: 'Coffing JLM Series — 2-Ton Chain Hoist',
+    jobType: 'Corrective Repair',
+    date: 'Jan 8, 2025',
+    outcome: 'UP contactor coil burned out. Replaced contactor assembly. All functions tested normal.',
+    partsUsed: 'Contactor — Part No. JLM-C12',
+    status: 'Completed',
+  },
+]
+
 export const KNOWLEDGE_BASE = {
   totalDocuments: 4,
   totalPages: 180,
