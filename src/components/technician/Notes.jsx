@@ -1,15 +1,31 @@
-import { useState } from 'react'
-import { ArrowLeft, CheckCircle, XCircle, ClipboardList, Package, FileText, AlertTriangle, Send } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { ArrowLeft, CheckCircle, XCircle, ClipboardList, Package, FileText, AlertTriangle, Send, Mic, Square } from 'lucide-react'
 import { WORK_ORDERS, ADMIN } from '../../data'
 
 export default function Notes({ woId, onBack, onComplete }) {
   const wo = WORK_ORDERS[woId]
 
-  const [faultConfirmed,   setFaultConfirmed]   = useState(true)
-  const [partsUsed,        setPartsUsed]        = useState(wo?.parts ?? '')
-  const [notes,            setNotes]            = useState(wo?.defaultNote ?? '')
+  const [faultConfirmed,    setFaultConfirmed]    = useState(true)
+  const [partsUsed,         setPartsUsed]         = useState(wo?.parts ?? '')
+  const [notes,             setNotes]             = useState(wo?.defaultNote ?? '')
   const [showEscalateModal, setShowEscalateModal] = useState(false)
+  const [recording,         setRecording]         = useState(false)
+  const [recordingSecs,     setRecordingSecs]     = useState(0)
+  const recordingTimer = useRef(null)
   if (!wo) return null
+
+  function startRecording() {
+    setRecording(true)
+    setRecordingSecs(0)
+    recordingTimer.current = setInterval(() => setRecordingSecs(s => s + 1), 1000)
+  }
+
+  function stopRecording() {
+    clearInterval(recordingTimer.current)
+    setRecording(false)
+    const transcribed = wo.defaultNote ?? ''
+    if (transcribed) setNotes(transcribed)
+  }
 
   function handleComplete() {
     onComplete({ faultConfirmed, partsUsed, notes })
@@ -94,15 +110,58 @@ export default function Notes({ woId, onBack, onComplete }) {
 
         {/* Notes textarea */}
         <div>
-          <p className="text-white/50 text-xs uppercase tracking-widest mb-2">Field Notes</p>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <textarea
-              value={notes}
-              onChange={e => setNotes(e.target.value)}
-              rows={5}
-              placeholder="Describe findings, measurements, observations..."
-              className="w-full bg-transparent text-white text-sm leading-relaxed outline-none resize-none placeholder:text-white/25"
-            />
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-white/50 text-xs uppercase tracking-widest">Field Notes</p>
+            <button
+              onClick={recording ? stopRecording : startRecording}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                recording
+                  ? 'bg-red-500/20 border border-red-500/40 text-red-400'
+                  : 'bg-white/8 border border-white/15 text-white/50 active:bg-white/15'
+              }`}
+            >
+              {recording ? (
+                <>
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                  <Square size={10} fill="currentColor" />
+                  {String(Math.floor(recordingSecs / 60)).padStart(2,'0')}:{String(recordingSecs % 60).padStart(2,'0')}
+                </>
+              ) : (
+                <>
+                  <Mic size={12} />
+                  Voice note
+                </>
+              )}
+            </button>
+          </div>
+          <div className={`border rounded-xl p-4 transition-all duration-200 ${
+            recording ? 'bg-red-500/5 border-red-500/25' : 'bg-white/5 border-white/10'
+          }`}>
+            {recording ? (
+              <div className="flex flex-col items-center py-3 gap-3">
+                <div className="flex items-center gap-1">
+                  {[1,2,3,4,5,4,3,2].map((h, i) => (
+                    <div
+                      key={i}
+                      className="w-1 bg-red-400 rounded-full"
+                      style={{
+                        height: `${h * 4}px`,
+                        animation: `pulse ${0.4 + i * 0.07}s ease-in-out infinite alternate`,
+                      }}
+                    />
+                  ))}
+                </div>
+                <p className="text-red-400/70 text-xs">Recording… tap stop when done</p>
+              </div>
+            ) : (
+              <textarea
+                value={notes}
+                onChange={e => setNotes(e.target.value)}
+                rows={5}
+                placeholder="Describe findings, measurements, observations..."
+                className="w-full bg-transparent text-white text-sm leading-relaxed outline-none resize-none placeholder:text-white/25"
+              />
+            )}
           </div>
           <p className="text-white/20 text-xs mt-1.5 text-right">
             {notes.length > 0 ? `${notes.length} chars` : 'Optional'}

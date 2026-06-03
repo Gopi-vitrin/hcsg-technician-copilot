@@ -167,6 +167,15 @@ export default function PredictionsPanel({ woId, onBack, onStartTroubleshooting,
         <p className="text-white/30 text-xs uppercase tracking-widest mb-1">
           Ranked predictions · 3 found
         </p>
+
+        {/* Per-WO AI context */}
+        {wo.aiContext && (
+          <div className="flex items-start gap-2.5 bg-hcsg-blue/8 border border-hcsg-blue/20 rounded-xl px-3 py-2.5 -mt-1 mb-1">
+            <Zap size={12} className="text-hcsg-blue mt-0.5 shrink-0" fill="currentColor" />
+            <p className="text-hcsg-blue/80 text-xs leading-relaxed">{wo.aiContext}</p>
+          </div>
+        )}
+
         {/* Cards stagger in: 0ms, 120ms, 240ms */}
         {wo.predictions.map((prediction, index) => (
           <PredictionCard

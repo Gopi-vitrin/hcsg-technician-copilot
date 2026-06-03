@@ -14,6 +14,51 @@ export const ADMIN = {
   avatar: 'SA',
 }
 
+export const KB_SEARCH_RESULTS = [
+  {
+    keywords: ['brake', 'air gap', 'drift', 'motor brake', 'hook drift'],
+    title: 'Motor Brake Adjustment Procedure',
+    source: 'Shaw-Box 800 Series Manual',
+    section: 'Section 7-2, p.23',
+    snippet: '"When gap reaches .200" it will need to be readjusted to .100". Friction disc should be replaced when wear area is 3/32" thick or less."',
+  },
+  {
+    keywords: ['wire rope', 'rope inspection', 'broken wire', 'corrosion'],
+    title: 'Wire Rope Inspection Criteria',
+    source: 'Shaw-Box 800 Series Manual',
+    section: 'Section 4-1, p.8',
+    snippet: 'Replace wire rope if broken wires exceed 2 in any 6-rope-diameter length, or if kinking, crushing, bird-caging, or corrosion is present.',
+  },
+  {
+    keywords: ['contactor', 'coil', 'relay', 'won\'t raise', 'up button'],
+    title: 'Contactor Inspection & Replacement',
+    source: 'Yale Y80 Series Manual',
+    section: 'Section 6-4, p.19',
+    snippet: '"Verify that the contactor armatures are free to move. If binding occurs, replace contactor. Check for burned out contactor coils."',
+  },
+  {
+    keywords: ['loto', 'lockout', 'tagout', 'lockout tagout', 'osha'],
+    title: 'Lockout / Tagout Procedure',
+    source: 'OSHA 29 CFR 1910.147',
+    section: 'Control of Hazardous Energy',
+    snippet: 'Lock the main power switch in the open (OFF) position and tag per OSHA 29 CFR 1910.147 before beginning any inspection or maintenance.',
+  },
+  {
+    keywords: ['fuse', 'transformer', 'no power', 'won\'t operate', 'ppd', 'phase'],
+    title: 'Control Power Loss Diagnosis',
+    source: 'World Series Double Girder Manual',
+    section: 'Section 6-1, p.22',
+    snippet: '"Check transformer fuse. If blown, check for grounding and/or shorts in push button station. Check transformer coil for signs of overheating."',
+  },
+  {
+    keywords: ['overload', 'clutch', 'slipping', 'capacity', 'rated load'],
+    title: 'Overload Clutch & Rated Capacity',
+    source: 'Shaw-Box 800 Series Manual',
+    section: 'Section 6-7, p.20',
+    snippet: '"Excessive load — Reduce loading to rated load as shown on nameplate." Never adjust the overload clutch to compensate for overloading.',
+  },
+]
+
 export const WORK_ORDERS = {
   'WO-2847': {
     id: 'WO-2847',
@@ -29,6 +74,7 @@ export const WORK_ORDERS = {
     lastService: '6 months ago — routine PM',
     hoursOnUnit: 487,
     aiReady: true,
+    aiContext: 'Matched against 3 similar fault reports in Gulf Coast fleet. Brake friction washers replaced 10 months ago — within normal re-wear range. Prior PM (Jan 2025) recorded gap at 0.120\" — consistent with progressive wear to current complaint.',
     equipmentHistory: [
       {
         date: 'Jan 14, 2025',
@@ -146,6 +192,7 @@ export const WORK_ORDERS = {
     lastService: '3 months ago',
     hoursOnUnit: 612,
     aiReady: true,
+    aiContext: 'March 2025 PM note flagged oxidation on UP contactor contacts — cleaned but not replaced. Pattern consistent with progressive electrical degradation. 68 hours of operation since last service.',
     equipmentHistory: [
       {
         date: 'Mar 3, 2025',
@@ -255,6 +302,7 @@ export const WORK_ORDERS = {
     lastService: '11 months ago',
     hoursOnUnit: 934,
     aiReady: true,
+    aiContext: 'Control transformer replaced Jan 2024 after overvoltage event — same unit, recurring control power failure pattern. Surge protection added at that service. 173 hours since last inspection.',
     equipmentHistory: [
       {
         date: 'Jul 8, 2024',
