@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* V2 design system */
+:root {
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'Barlow', sans-serif;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+body { background: #011e41; min-height: 100vh; font-family: var(--font-body); }
+
+/* Barlow Condensed utility */
+.font-display { font-family: var(--font-display); }
+
+/* Triple chevron motif */
+.chevron-accent::before {
+  content: '›››';
+  color: #e65e25;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin-right: 8px;
+}
+
+/* Orange frame border treatment (website signature) */
+.orange-frame {
+  outline: 3px solid #e65e25;
+  outline-offset: -6px;
+}
+
+/* Corner badge (diagonal triangle) */
+.corner-badge {
+  position: relative;
+  overflow: hidden;
+}
+.corner-badge::after {
+  content: attr(data-badge);
+  position: absolute;
+  top: 8px;
+  right: -18px;
+  background: #e65e25;
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 20px;
+  transform: rotate(45deg);
+}
+
+/* V2 animations */
+@keyframes v2-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.v2-fade-up { animation: v2-fade-up 0.35s ease-out both; }
+
+@keyframes v2-slide-right {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.v2-slide-right { animation: v2-slide-right 0.3s ease-out both; }
+
+@keyframes v2-chevron-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.v2-chevron-pulse { animation: v2-chevron-pulse 1.2s ease-in-out infinite; }
+
+@keyframes v2-scan {
+  0%   { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+/* Custom scrollbar for V2 */
+.v2-scroll::-webkit-scrollbar { width: 3px; }
+.v2-scroll::-webkit-scrollbar-track { background: transparent; }
+.v2-scroll::-webkit-scrollbar-thumb { background: #e65e2540; border-radius: 2px; }
