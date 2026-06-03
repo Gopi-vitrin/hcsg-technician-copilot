@@ -9,6 +9,7 @@ export default function Notes({ woId, onBack, onComplete }) {
   const [partsUsed,         setPartsUsed]         = useState(wo?.parts ?? '')
   const [notes,             setNotes]             = useState(wo?.defaultNote ?? '')
   const [showEscalateModal, setShowEscalateModal] = useState(false)
+  const [pendingEscalate,   setPendingEscalate]   = useState(false)
   const [recording,         setRecording]         = useState(false)
   const [recordingSecs,     setRecordingSecs]     = useState(0)
   const recordingTimer = useRef(null)
@@ -33,6 +34,16 @@ export default function Notes({ woId, onBack, onComplete }) {
 
   function handleEscalateClick() {
     setFaultConfirmed(false)
+    setPendingEscalate(true)
+  }
+
+  function cancelEscalate() {
+    setFaultConfirmed(true)
+    setPendingEscalate(false)
+  }
+
+  function confirmEscalate() {
+    setPendingEscalate(false)
     setShowEscalateModal(true)
   }
 
@@ -62,7 +73,7 @@ export default function Notes({ woId, onBack, onComplete }) {
           <p className="text-white/50 text-xs uppercase tracking-widest mb-2">Fault Confirmed?</p>
           <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={() => setFaultConfirmed(true)}
+              onClick={() => { setFaultConfirmed(true); setPendingEscalate(false) }}
               className={`flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm transition-all duration-150 ${
                 faultConfirmed
                   ? 'bg-green-500/20 border border-green-500/40 text-green-400'
@@ -85,6 +96,36 @@ export default function Notes({ woId, onBack, onComplete }) {
             </button>
           </div>
         </div>
+
+        {/* Escalation confirmation — appears after first tap of No — Escalate */}
+        {pendingEscalate && (
+          <div className="rounded-2xl overflow-hidden border border-hcsg-dark-red/35 bg-hcsg-dark-red/10 animate-fade-in">
+            <div className="flex items-center gap-2.5 px-4 py-3 border-b border-hcsg-dark-red/20">
+              <AlertTriangle size={14} className="text-red-400 shrink-0" />
+              <p className="text-red-300 text-sm font-semibold">Confirm escalation?</p>
+            </div>
+            <div className="px-4 py-3 space-y-3">
+              <p className="text-white/50 text-xs leading-relaxed">
+                This will notify <span className="text-white/75 font-medium">{ADMIN.name}</span> and log an escalation record for {woId}. The fault could not be confirmed on-site.
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={confirmEscalate}
+                  className="flex-1 flex items-center justify-center gap-1.5 bg-hcsg-dark-red/30 border border-hcsg-dark-red/50 text-red-300 font-semibold text-sm py-3 rounded-xl active:bg-hcsg-dark-red/50 transition-all"
+                >
+                  <AlertTriangle size={14} />
+                  Confirm Escalation
+                </button>
+                <button
+                  onClick={cancelEscalate}
+                  className="px-4 bg-white/5 border border-white/10 text-white/45 text-sm font-medium py-3 rounded-xl active:bg-white/10 transition-all"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Parts used */}
         <div>
