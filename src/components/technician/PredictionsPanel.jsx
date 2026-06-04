@@ -1,24 +1,31 @@
 import { useState, useEffect } from 'react'
-import { ArrowLeft, ChevronDown, ChevronUp, AlertTriangle, BookOpen, Package, Zap } from 'lucide-react'
+import { ArrowLeft, AlertTriangle, Package, Zap, FileText } from 'lucide-react'
 import { WORK_ORDERS } from '../../data'
 
 const SEVERITY_STYLES = {
-  HIGH:   'bg-hcsg-dark-red/20 text-red-400 border border-hcsg-dark-red/30',
-  MEDIUM: 'bg-hcsg-amber/20 text-hcsg-amber border border-hcsg-amber/30',
-  LOW:    'bg-white/8 text-white/40 border border-white/10',
+  HIGH:   'bg-red-50 text-red-600 border border-red-100',
+  MEDIUM: 'bg-amber-50 text-amber-600 border border-amber-100',
+  LOW:    'bg-slate-100 text-slate-400 border border-slate-200',
 }
 
 const CONFIDENCE_COLOR = (score) => {
-  if (score >= 75) return { bar: 'bg-green-500', text: 'text-green-400' }
+  if (score >= 75) return { bar: 'bg-green-500', text: 'text-green-600' }
   if (score >= 50) return { bar: 'bg-hcsg-amber', text: 'text-hcsg-amber' }
-  return              { bar: 'bg-white/30',        text: 'text-white/40' }
+  return              { bar: 'bg-slate-300',   text: 'text-slate-400'  }
+}
+
+function parseSource(source) {
+  const parts = source.split(',').map(s => s.trim())
+  const name    = parts[0].replace(' Manual', '').replace(' Series Wire Rope Hoist', '').replace(' Wire Rope Hoist', '').trim()
+  const section = parts[1] || ''
+  const page    = parts[2] || ''
+  return `${name} · ${section} · ${page}`
 }
 
 function PredictionCard({ prediction, rank, isTop, animDelay }) {
   const [citationOpen, setCitationOpen] = useState(isTop)
   const [warningOpen,  setWarningOpen]  = useState(isTop)
-  // Confidence bar animates from 0 → actual value after mount
-  const [barWidth, setBarWidth] = useState(0)
+  const [barWidth,     setBarWidth]     = useState(0)
   const colors = CONFIDENCE_COLOR(prediction.confidence)
 
   useEffect(() => {
@@ -28,19 +35,19 @@ function PredictionCard({ prediction, rank, isTop, animDelay }) {
 
   return (
     <div
-      className={`rounded-2xl overflow-hidden border transition-all animate-card-in ${
-        isTop ? 'border-hcsg-orange/30 bg-hcsg-orange/5' : 'border-white/8 bg-white/4'
+      className={`rounded-2xl overflow-hidden border transition-all animate-card-in bg-white ${
+        isTop ? 'border-hcsg-orange/40 border-l-4 border-l-hcsg-orange' : 'border-slate-200'
       }`}
       style={{ animationDelay: `${animDelay}ms` }}
     >
       {/* Card header */}
       <div className="p-4 pb-3">
 
-        {/* Row 1 — rank + severity + confidence */}
+        {/* Rank + severity + confidence */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-              isTop ? 'bg-hcsg-orange text-white' : 'bg-white/10 text-white/50'
+              isTop ? 'bg-hcsg-orange text-white' : 'bg-slate-100 text-slate-500'
             }`}>
               {rank}
             </span>
@@ -49,11 +56,8 @@ function PredictionCard({ prediction, rank, isTop, animDelay }) {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className={`text-sm font-bold ${colors.text}`}>
-              {prediction.confidence}%
-            </span>
-            {/* Confidence bar — animates from 0 on mount */}
-            <div className="w-20 h-2 bg-white/10 rounded-full overflow-hidden">
+            <span className={`text-sm font-bold ${colors.text}`}>{prediction.confidence}% confident</span>
+            <div className="w-16 h-2 bg-slate-100 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-700 ease-out ${colors.bar}`}
                 style={{ width: `${barWidth}%` }}
@@ -63,71 +67,52 @@ function PredictionCard({ prediction, rank, isTop, animDelay }) {
         </div>
 
         {/* Fault name */}
-        <p className={`font-semibold text-sm leading-snug ${isTop ? 'text-white' : 'text-white/80'}`}>
+        <p className={`font-semibold text-sm leading-snug ${isTop ? 'text-hcsg-navy' : 'text-slate-700'}`}>
           {prediction.fault}
         </p>
 
-        {/* Part recommendation */}
+        {/* Part */}
         {prediction.part && (
           <div className="flex items-start gap-2 mt-2">
             <Package size={13} className="text-hcsg-orange mt-0.5 shrink-0" />
-            <p className="text-white/50 text-xs leading-snug">{prediction.part}</p>
+            <p className="text-slate-500 text-xs leading-snug">{prediction.part}</p>
           </div>
         )}
       </div>
 
-      {/* Source citation — collapsible */}
-      <div className="border-t border-white/8">
+      {/* Citation chip */}
+      <div className="border-t border-slate-100 px-4 py-2.5">
         <button
           onClick={() => setCitationOpen(v => !v)}
-          className="w-full flex items-center justify-between px-4 py-2.5 text-left active:bg-white/5 transition-colors"
+          className="flex items-center gap-2 bg-hcsg-surface border border-slate-200 rounded-full px-3 py-1.5 active:bg-slate-200 transition-colors"
         >
-          <div className="flex items-center gap-2">
-            <BookOpen size={13} className="text-hcsg-blue" />
-            <span className="text-hcsg-blue text-xs font-medium truncate max-w-[220px]">
-              {prediction.source.split(',')[0]}
-            </span>
-          </div>
-          {citationOpen
-            ? <ChevronUp size={14} className="text-white/30 shrink-0" />
-            : <ChevronDown size={14} className="text-white/30 shrink-0" />
-          }
+          <FileText size={11} className="text-hcsg-blue shrink-0" />
+          <span className="text-hcsg-blue text-xs font-medium truncate max-w-[240px]">
+            {parseSource(prediction.source)}
+          </span>
         </button>
-
         {citationOpen && (
-          <div className="px-4 pb-3 animate-fade-in">
-            <p className="text-white/40 text-xs leading-relaxed italic border-l-2 border-hcsg-blue/40 pl-3">
-              {prediction.citation}
-            </p>
-            <p className="text-white/25 text-xs mt-1.5">{prediction.source}</p>
-          </div>
+          <p className="text-slate-500 text-xs leading-relaxed italic border-l-2 border-hcsg-blue/30 pl-3 mt-2.5 animate-fade-in">
+            {prediction.citation}
+          </p>
         )}
       </div>
 
-      {/* Safety warning — collapsible */}
+      {/* Safety warning */}
       {prediction.safetyWarning && (
-        <div className="border-t border-white/8">
+        <div className="border-t border-slate-100">
           <button
             onClick={() => setWarningOpen(v => !v)}
-            className={`w-full flex items-center justify-between px-4 py-2.5 text-left transition-colors ${
-              warningOpen ? 'bg-hcsg-dark-red/15' : 'active:bg-white/5'
+            className={`w-full flex items-center gap-2 px-4 py-2.5 text-left transition-colors ${
+              warningOpen ? 'bg-red-50' : 'active:bg-slate-50'
             }`}
           >
-            <div className="flex items-center gap-2">
-              <AlertTriangle size={13} className="text-red-400 shrink-0" />
-              <span className="text-red-400 text-xs font-semibold">Safety Warning</span>
-            </div>
-            {warningOpen
-              ? <ChevronUp size={14} className="text-red-400/50 shrink-0" />
-              : <ChevronDown size={14} className="text-white/30 shrink-0" />
-            }
+            <AlertTriangle size={13} className="text-red-500 shrink-0" />
+            <span className="text-red-500 text-xs font-semibold">Safety Warning</span>
           </button>
-
           {warningOpen && (
-            <div className="px-4 pb-3 bg-hcsg-dark-red/10 animate-fade-in">
-              <p className="text-red-300 text-xs leading-relaxed">
-                {prediction.safetyWarning}
-              </p>
+            <div className="px-4 pb-3 bg-red-50 animate-fade-in">
+              <p className="text-red-600 text-xs leading-relaxed">{prediction.safetyWarning}</p>
             </div>
           )}
         </div>
@@ -141,42 +126,55 @@ export default function PredictionsPanel({ woId, onBack, onStartTroubleshooting,
   const topConfidence = wo.predictions[0].confidence
 
   return (
-    <div className="flex flex-col h-full bg-hcsg-navy">
+    <div className="flex flex-col h-full bg-hcsg-page">
 
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-4 pb-3 border-b border-white/10">
+      <div className="bg-white flex items-center gap-3 px-4 pt-4 pb-3 border-b border-slate-200">
         <button
           onClick={onBack}
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-white/8 active:bg-white/15 transition-colors"
+          className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 active:bg-slate-200 transition-colors"
         >
-          <ArrowLeft size={18} className="text-white" />
+          <ArrowLeft size={18} className="text-hcsg-navy" />
         </button>
         <div className="flex-1">
-          <p className="text-white font-semibold text-sm">AI Diagnosis</p>
-          <p className="text-white/40 text-xs">{woId} · {wo.equipment.split('—')[0].trim()}</p>
+          <p className="text-hcsg-navy font-semibold text-sm">HCSG Advisor — Diagnosis</p>
+          <p className="text-slate-400 text-xs">{wo.equipment.split('—')[0].trim()}</p>
         </div>
-        {/* Badge pulses once on entry */}
-        <div className="flex items-center gap-1.5 bg-green-500/15 border border-green-500/25 px-2.5 py-1 rounded-full animate-badge-pulse">
+        <div className="flex items-center gap-1.5 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full animate-badge-pulse">
           <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-          <span className="text-green-400 text-xs font-semibold">{topConfidence}% match</span>
+          <span className="text-green-600 text-xs font-semibold">{topConfidence}% match</span>
         </div>
       </div>
 
       {/* Scrollable predictions */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-        <p className="text-white/30 text-xs uppercase tracking-widest mb-1">
-          Ranked predictions · 3 found
+
+        {/* HCSG Advisor persona intro */}
+        <div className="bg-white border border-hcsg-orange/25 border-l-4 border-l-hcsg-orange rounded-2xl px-4 py-3.5">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-5 h-5 rounded-full bg-hcsg-orange flex items-center justify-center shrink-0">
+              <Zap size={11} className="text-white" fill="currentColor" />
+            </div>
+            <span className="text-hcsg-orange text-xs font-bold uppercase tracking-wide">HCSG Advisor</span>
+          </div>
+          <p className="text-slate-600 text-xs leading-relaxed">
+            Based on: {wo.equipment.split('—')[0].trim()} · {wo.complaint.split('.')[0]} · 4 manuals searched
+          </p>
+        </div>
+
+        <p className="text-slate-600 text-sm font-medium px-1">
+          Here's what I think is happening, and why:
         </p>
 
-        {/* Per-WO AI context */}
+        {/* AI context */}
         {wo.aiContext && (
-          <div className="flex items-start gap-2.5 bg-hcsg-blue/8 border border-hcsg-blue/20 rounded-xl px-3 py-2.5 -mt-1 mb-1">
-            <Zap size={12} className="text-hcsg-blue mt-0.5 shrink-0" fill="currentColor" />
-            <p className="text-hcsg-blue/80 text-xs leading-relaxed">{wo.aiContext}</p>
+          <div className="flex items-start gap-2.5 bg-white border border-hcsg-orange/20 border-l-4 border-l-hcsg-orange rounded-xl px-3 py-2.5">
+            <Zap size={12} className="text-hcsg-orange mt-0.5 shrink-0" fill="currentColor" />
+            <p className="text-slate-600 text-xs leading-relaxed">{wo.aiContext}</p>
           </div>
         )}
 
-        {/* Cards stagger in: 0ms, 120ms, 240ms */}
+        {/* Prediction cards */}
         {wo.predictions.map((prediction, index) => (
           <PredictionCard
             key={prediction.rank}
@@ -188,11 +186,11 @@ export default function PredictionsPanel({ woId, onBack, onStartTroubleshooting,
         ))}
       </div>
 
-      {/* Sticky CTAs */}
-      <div className="px-4 pb-6 pt-3 border-t border-white/10 space-y-3">
+      {/* CTAs */}
+      <div className="px-4 pb-6 pt-3 border-t border-slate-200 bg-white space-y-3">
         <button
           onClick={onStartTroubleshooting}
-          className="w-full flex items-center justify-center gap-2 bg-hcsg-orange hover:bg-hcsg-light-orange active:scale-[0.98] text-white font-bold text-base py-4 rounded-2xl transition-all duration-150 shadow-lg shadow-hcsg-orange/25"
+          className="w-full flex items-center justify-center gap-2 bg-hcsg-orange active:bg-hcsg-light-orange active:scale-[0.98] text-white font-bold text-base py-4 rounded-2xl transition-all duration-150 shadow-lg shadow-hcsg-orange/25"
         >
           <Zap size={18} fill="currentColor" />
           Start Troubleshooting
@@ -201,7 +199,7 @@ export default function PredictionsPanel({ woId, onBack, onStartTroubleshooting,
           onClick={onAskQuestion}
           className="w-full text-hcsg-blue text-sm font-medium py-2 active:opacity-70 transition-opacity"
         >
-          Ask a Question
+          Ask HCSG Advisor a question
         </button>
       </div>
 

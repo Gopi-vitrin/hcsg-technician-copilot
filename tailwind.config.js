@@ -16,6 +16,9 @@ export default {
         'hcsg-light-gray':    '#e8e8e8',  // section backgrounds
         'hcsg-blue':          '#1159af',  // palette12 — supplemental (not in layouts)
         'hcsg-bg':            '#1a3d6b',  // lighter screen background (content areas)
+        'hcsg-page':          '#F7F4F0',  // warm off-white — page background
+        'hcsg-surface':       '#F0EDE8',  // deeper beige — secondary surfaces
+        'hcsg-muted':         '#555550',  // muted label text
       },
     },
   },

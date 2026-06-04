@@ -6,7 +6,7 @@ export default function RoleSwitcher({ role, onSwitch, disabled = false }) {
   return (
     <button
       onClick={disabled ? undefined : () => onSwitch(isAdmin ? 'technician' : 'admin')}
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-full shadow-xl transition-all duration-200 hover:scale-105 active:scale-95"
+      className="fixed bottom-6 right-6 z-50 min-h-11 flex items-center gap-2.5 px-4 py-2.5 rounded-full shadow-xl focus:outline-none focus:ring-2 focus:ring-hcsg-orange/30 transition-[transform,box-shadow,opacity] duration-200 hover:scale-[1.03] active:scale-95"
       style={{
         background: isAdmin ? '#e65e25' : '#011e41',
         border: `2px solid ${isAdmin ? '#f7630c' : '#1a3a5c'}`,
@@ -27,7 +27,7 @@ export default function RoleSwitcher({ role, onSwitch, disabled = false }) {
           <Monitor size={15} className="text-white" />
           <div className="text-left">
             <p className="text-white text-xs font-semibold leading-tight">Sandra Arceneaux</p>
-            <p className="text-white/60 text-xs leading-tight">Admin Console</p>
+            <p className="text-white/60 text-xs leading-tight">Manager View</p>
           </div>
         </>
       )}

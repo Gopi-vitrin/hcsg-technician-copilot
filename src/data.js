@@ -19,6 +19,15 @@ export const ADMIN = {
   avatar: 'SA',
 }
 
+export const TEAM_TODAY = [
+  { name: 'Jake Thibodaux',   avatar: 'JT', online: true,  wo: 'WO-2847', site: 'Port Allen Facility',    status: 'With advisor' },
+  { name: 'Marcus Guidry',    avatar: 'MG', online: true,  wo: 'WO-2855', site: 'Baton Rouge Plant',       status: 'In field' },
+  { name: 'Derek Broussard',  avatar: 'DB', online: true,  wo: 'WO-2851', site: 'Houma Terminal',          status: 'Manager review' },
+  { name: 'Leah Fontenot',    avatar: 'LF', online: false, wo: 'WO-2861', site: 'Lafayette Warehouse',     status: 'Break' },
+  { name: 'Chris Tran',       avatar: 'CT', online: true,  wo: 'WO-2858', site: 'Metairie Distribution',   status: 'In field' },
+  { name: 'Renée Melancon',   avatar: 'RM', online: false, wo: null,      site: null,                      status: 'Off today' },
+]
+
 export const KB_SEARCH_RESULTS = [
   {
     keywords: ['brake', 'air gap', 'drift', 'motor brake', 'hook drift'],
@@ -749,6 +758,15 @@ export const TECHNICIAN_HISTORY = [
     outcome: 'Load brake friction washers replaced due to glazing. No drift on test run.',
     partsUsed: 'Friction Washer (x2) — Part No. 800-235',
     status: 'Completed',
+    messages: [
+      { role: 'ai',   text: "Yale Y80 Series 3-Ton loaded and ready. What's the symptom you're seeing on this unit?" },
+      { role: 'user', text: 'Load drifts slowly downward after operator releases the controller. Maybe 2 inches over 30 seconds.' },
+      { role: 'ai',   text: "Classic load brake symptom. On the Y80 this is almost always the friction washers — they glaze over with heat cycling. Before anything else, check brake air gap. Spec is 0.080–0.100\". If it's within spec and you still have drift, the washers need replacement.\n\nPart No. 800-235 — do you have those on the truck?" },
+      { role: 'user', text: 'Checked the gap — 0.095". Yeah I have 800-235 on the truck.' },
+      { role: 'ai',   text: "Good — gap is fine so the washers are the culprit. Procedure:\n1. De-energize and lock out/tag out\n2. Remove the brake cover (4× M8 bolts)\n3. Pull the friction washer stack — you'll see the glazing immediately\n4. Install new washers, reinstall cover, torque to 18 ft-lbs\n5. Run 3 no-load cycles then hold rated load for 5 min\n\nDocument test results before releasing to operations." },
+      { role: 'user', text: 'Done. Ran the test — no drift at all. Clean fix.' },
+      { role: 'ai',   text: 'Nice work. Mark it resolved and note the glazed washers in the service record — it helps flag this unit for earlier brake inspection next PM cycle.' },
+    ],
   },
   {
     id: 'WO-2819',
@@ -760,6 +778,15 @@ export const TECHNICIAN_HISTORY = [
     outcome: 'Quarterly PM completed. Chain elongation within spec. Brake air gap 0.092". No deficiencies.',
     partsUsed: 'Chain lubricant',
     status: 'Completed',
+    messages: [
+      { role: 'ai',   text: "Shaw-Box Series 800 quarterly PM — I'll walk you through the checklist. Start with a visual: any cracks, corrosion, or loose hardware visible?" },
+      { role: 'user', text: 'Visual looks clean. Some surface rust on the hook block but nothing structural.' },
+      { role: 'ai',   text: "Note the surface rust on the hook block in your report but it's not a stop-work item unless it's pitting or affecting load rating. Move to the wire rope — check for broken wires, kinking, and measure rope diameter. On the Series 800 2-ton, discard criteria is 2 broken wires in any 6-diameter length." },
+      { role: 'user', text: 'Rope looks good. No broken wires. Diameter at 0.38" — spec is 0.375" nominal, so slightly oversized from lube buildup?' },
+      { role: 'ai',   text: "Correct — slight over-diameter from lubricant is normal and not a concern. Clean and re-lube with your chain lubricant. Next: brake air gap. Spec on Series 800 is 0.085–0.105\"." },
+      { role: 'user', text: "Measured 0.092\". Right in the middle." },
+      { role: 'ai',   text: "Perfect. No adjustment needed. Finish with limit switch function test — upper and lower — and verify all fasteners are torqued. PM is clear. No deficiencies to report." },
+    ],
   },
   {
     id: 'WO-2804',
@@ -771,6 +798,17 @@ export const TECHNICIAN_HISTORY = [
     outcome: 'ASME B30.2 annual inspection. Wire rope replaced — exceeded service life. Load test passed.',
     partsUsed: 'Wire Rope — Part No. 800-145',
     status: 'Completed',
+    messages: [
+      { role: 'ai',   text: "World Series 10-Ton annual ASME B30.2 inspection loaded. This is a full-scope inspection — I'll guide you through each section. Start with structural: check bridge girders, end trucks, runway rails for cracks, deformation, or loose connections." },
+      { role: 'user', text: 'Structural looks solid. No visible cracks. Rail clips all tight. End truck wheels show even wear.' },
+      { role: 'ai',   text: "Documented. Move to wire rope. Per B30.2 discard criteria: 6+ broken wires in one rope lay, 3+ broken wires in one strand, corrosion pitting, kinking, or diameter reduction >1/64\". What are you seeing?" },
+      { role: 'user', text: 'Found 8 broken wires in a 12-inch section near the drum. This rope is due for replacement.' },
+      { role: 'ai',   text: "That's over the 6-wire threshold — mandatory discard. Part No. 800-145 is the correct replacement for this unit. Do not operate until rope is replaced.\n\nAfter replacement: re-spool on drum, verify minimum 2 dead wraps remain at full lower limit, re-run limit switches." },
+      { role: 'user', text: 'Replaced the rope. Re-spooled and set limits. Ready for load test.' },
+      { role: 'ai',   text: "For B30.2 annual load test on a 10-ton: test at 100% rated load (10 tons), lift to mid-height, hold for 10 minutes. Check for drift, abnormal sounds, structural movement. Then cycle 3 times full up/down.\n\nDocument all readings and sign the inspection record." },
+      { role: 'user', text: 'Load test passed. No drift, no abnormal sounds. Signed off.' },
+      { role: 'ai',   text: 'Annual inspection complete and documented. Wire rope replacement noted. Unit is cleared for service. Good work — that rope failure catch is exactly what this inspection is for.' },
+    ],
   },
   {
     id: 'WO-2791',
@@ -782,6 +820,17 @@ export const TECHNICIAN_HISTORY = [
     outcome: 'UP contactor coil burned out. Replaced contactor assembly. All functions tested normal.',
     partsUsed: 'Contactor — Part No. JLM-C12',
     status: 'Completed',
+    messages: [
+      { role: 'ai',   text: "Coffing JLM Series 2-Ton loaded. What's the issue?" },
+      { role: 'user', text: 'UP direction completely dead. DOWN works fine. No motion, no noise on UP.' },
+      { role: 'ai',   text: "UP-only failure on a JLM is almost always the UP contactor coil — this is the most common failure mode on this model, especially in humid environments like Houston petrochemical sites.\n\nFirst check: with hoist de-energized, manually press the UP contactor and listen/feel for any mechanical binding. Then check coil resistance — spec is 85–95Ω. What do you measure?" },
+      { role: 'user', text: "Coil reads open circuit. Yeah it's burned out." },
+      { role: 'ai',   text: "Confirmed — coil is failed open. Replace the full contactor assembly, Part No. JLM-C12. Swapping just the coil is not recommended on this model as the contact faces are likely worn to the same service life.\n\nProcedure:\n1. LOTO\n2. Photo the wiring before disconnecting (3-phase + control)\n3. Remove the 2× M6 mounting screws\n4. Transfer wires to new contactor matching positions exactly\n5. Reinstall, restore power" },
+      { role: 'user', text: 'Have JLM-C12 on the truck. Installing now.' },
+      { role: 'ai',   text: "Good. After install: test UP and DOWN through 3 full cycles with no load, verify limits, then test with rated load. Check for any chattering or overheating on the new contactor after the load run." },
+      { role: 'user', text: 'All functions normal. No chatter. Good as new.' },
+      { role: 'ai',   text: "Solid fix. Note in the service record that the UP contactor was replaced — and flag this unit for contactor inspection at the next PM. On JLM units in this environment they typically need replacement every 18–24 months." },
+    ],
   },
 ]
 
@@ -799,6 +848,80 @@ export const KNOWLEDGE_BASE = {
     { equipment: 'Industrial Elevators',      status: 'No documents indexed',                   priority: 'High',   count: 0 },
     { equipment: 'Dock & Door Systems',        status: 'No documents indexed',                   priority: 'Medium', count: 0 },
     { equipment: 'Yale Global King (500T+)',   status: '1 document — service bulletins missing', priority: 'Medium', count: 1 },
+  ],
+}
+
+export const LIVE_THREADS = [
+  {
+    id: 'WO-2847',
+    tech: 'Jake Thibodaux',
+    site: 'Westlake Chemical - Sulphur, LA',
+    equipment: 'Shaw-Box Series 800 - 2-Ton',
+    issue: 'Load drifts after release',
+    status: 'Advisor active',
+    risk: 'LOTO required',
+    confidence: 87,
+    age: 'live',
+    transcript: [
+      { who: 'Technician', text: 'Hook drops a few inches when I let go of the button.' },
+      { who: 'Advisor', text: 'Most likely motor brake air gap. Lockout/tagout, remove brake cover, measure gap before adjustment.' },
+      { who: 'Technician', text: 'I can see the cover. Starting LOTO now.' },
+    ],
+  },
+  {
+    id: 'WO-2853',
+    tech: 'Maria Guidry',
+    site: 'LyondellBasell - Houston, TX',
+    equipment: 'World Series Bridge Crane - 10-Ton',
+    issue: 'No control power',
+    status: 'Manager review',
+    risk: 'Electrical fault',
+    confidence: 79,
+    age: '2 min',
+    transcript: [
+      { who: 'Technician', text: 'No response from pendant and no contactor sound.' },
+      { who: 'Advisor', text: 'Check transformer fuse and PPD LED. Keep power locked out before opening the panel.' },
+      { who: 'Technician', text: 'PPD LED is off. Do you want me to replace the fuse or call electrical?' },
+    ],
+  },
+  {
+    id: 'WO-2851',
+    tech: 'Derek Broussard',
+    site: 'Dow Chemical - Freeport, TX',
+    equipment: 'Yale Y80 Series - 3-Ton',
+    issue: "Won't raise",
+    status: 'Advisor active',
+    risk: 'Medium',
+    confidence: 82,
+    age: '6 min',
+    transcript: [
+      { who: 'Technician', text: 'Down works. Up does nothing.' },
+      { who: 'Advisor', text: 'Check whether the UP contactor clicks. If silent, inspect coil and push-button contacts.' },
+    ],
+  },
+]
+
+export const MODEL_ISSUES = {
+  'Shaw-Box Series 800': [
+    { label: 'Motor brake air gap drift',        count: 38, note: 'Most reported fault on this model' },
+    { label: 'Load drift after release',          count: 31, note: 'Typically brake or overload clutch' },
+    { label: 'Wire rope wear / inspection',       count: 24, note: 'Common at 400–500 operating hours' },
+    { label: 'Overload clutch slipping',          count: 17, note: 'Usually incorrect clutch adjustment' },
+    { label: 'Contactor coil failure',            count: 11, note: 'UP contactor fails more than DOWN' },
+  ],
+  'Yale Y80 Series': [
+    { label: 'UP contactor not engaging',         count: 29, note: 'Most common fault on this model' },
+    { label: 'Motor brake dragging',              count: 22, note: 'Air gap typically set too tight' },
+    { label: 'Push-button circuit fault',         count: 18, note: 'Check pendant cable and contacts' },
+    { label: 'Overload trip under rated load',    count: 14, note: 'Clutch adjustment or load issue' },
+    { label: 'Wire rope kinking',                 count: 9,  note: 'Common on older drum spooling' },
+  ],
+  'World Series Bridge Crane': [
+    { label: 'No control power / PPD LED off',   count: 33, note: 'Transformer fuse failure is #1 cause' },
+    { label: 'Bridge travel drift',               count: 21, note: 'Check rail alignment and wheel wear' },
+    { label: 'Hoist limit switch fault',          count: 16, note: 'Upper limit typically fails first' },
+    { label: 'Pendant cable damage',              count: 13, note: 'Inspect full pendant cable run' },
+    { label: 'Load block wear',                   count: 8,  note: 'Sheave and hook latch inspection' },
   ],
 }
 
