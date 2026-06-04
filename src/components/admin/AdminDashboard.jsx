@@ -11,7 +11,7 @@ export default function AdminDashboard({ onNavigate }) {
   const needsReview = LIVE_THREADS.filter(t => t.status === 'Manager review')
 
   return (
-    <div className="max-w-7xl">
+    <div className="w-full">
       <div className="mb-6">
         <h1 className="text-hcsg-navy text-2xl font-bold text-balance">Service Overview</h1>
         <p className="text-slate-400 text-sm mt-1 tabular-nums">{today} - Gulf Coast Region - 32 branches</p>
@@ -24,7 +24,7 @@ export default function AdminDashboard({ onNavigate }) {
             <button
               key={s.label}
               onClick={() => onNavigate(s.route)}
-              className="bg-white rounded-2xl px-6 py-4 text-left shadow-sm hover:shadow-md border border-slate-100 focus:outline-none focus:ring-2 focus:ring-hcsg-orange/20 transition-[box-shadow,border-color,transform] duration-150 active:scale-[0.99] flex items-center gap-4"
+              className="flex-1 bg-white rounded-2xl px-6 py-4 text-left shadow-sm hover:shadow-md border border-slate-100 focus:outline-none focus:ring-2 focus:ring-hcsg-orange/20 transition-[box-shadow,border-color,transform] duration-150 active:scale-[0.99] flex items-center gap-4"
             >
               <div className="w-10 h-10 rounded-xl bg-hcsg-surface flex items-center justify-center shrink-0">
                 <Icon size={17} className="text-hcsg-orange" />

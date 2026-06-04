@@ -120,7 +120,7 @@ export default function WorkOrderMonitoring() {
   const isLiveSession = !selected.teamOnly
 
   return (
-    <div className="max-w-7xl">
+    <div className="w-full">
 
       <div className="mb-5 flex items-start justify-between">
         <div>

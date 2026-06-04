@@ -81,7 +81,7 @@ export default function AdminTeam() {
   }
 
   return (
-    <div className="max-w-4xl">
+    <div className="w-full">
       <div className="mb-6">
         <h1 className="text-hcsg-navy text-2xl font-bold">My Team</h1>
         <p className="text-slate-400 text-sm mt-1">{online.length} online · {TEAM_TODAY.filter(t => t.wo).length} on active work orders today</p>

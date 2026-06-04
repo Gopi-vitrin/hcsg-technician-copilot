@@ -560,7 +560,7 @@ export default function DocumentManagement() {
     }
   }
   return (
-    <div className="max-w-7xl">
+    <div className="w-full">
 
       {showSharePoint && <SharePointModal onClose={() => setShowSharePoint(false)} onImport={handleImport} />}
       {showUpload    && <UploadModal    onClose={() => setShowUpload(false)}    onUploaded={handleUploaded} />}

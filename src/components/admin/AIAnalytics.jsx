@@ -10,7 +10,7 @@ export default function AIAnalytics() {
   ]
 
   return (
-    <div className="max-w-7xl">
+    <div className="w-full">
       <div className="mb-6">
         <h1 className="text-hcsg-navy text-2xl font-bold text-balance">AI Insights</h1>
         <p className="text-slate-400 text-sm mt-1 text-pretty">Top recurring issues across your branch — last 30 days.</p>
